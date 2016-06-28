@@ -1,0 +1,37 @@
+ECHO Paper Outline:
+
+1.	Introduction
+   ⁃	Primary beam response needed for:
+   ⁃	Foreground subtraction
+   ⁃	Need to know low elevation angle response
+2.	Design and Method
+   ⁃	Experimental setup
+      ⁃	3DR X8 octoquad drone
+         ⁃	Preprogram flight path using internal GPS
+      ⁃	Valon 5007 dual frequency synthesizer
+         ⁃	137.5-4400 MHz
+      ⁃	BicoLOG 30100 biconical antenna
+         ⁃  30 MHz to 1 GHz
+      ⁃	Signal Hound BB60A Spectrum Analyzer
+         ⁃	9 kHz to 6 GHz
+   ⁃	Drone flown in spiral pattern along hemisphere centered on antenna under test
+   ⁃	ROI for fixed transmitter polarization
+   ⁃	ECHO pipeline generates beam map
+   ⁃	Uses Healpix and Healpy (http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2005ApJ...622..759G&db_key=AST&high=41069202cf02947)
+   ⁃	FITS output
+3.	Calibration
+   -
+
+   3.1	Maps
+      ⁃  
+   3.2	Comparison to Orbcomm Ratio Maps
+      ⁃	Neben: http://onlinelibrary.wiley.com/doi/10.1002/2015RS005678/abstract;jsessionid=69E36DF7FB2063E5E41A017BDC65A0EE.f02t02
+4.	MWA Tile
+   4.1	Data
+      ⁃  s
+   4.2	Systematic Variation
+      ⁃  s
+   4.3	Comparison to Orbcomm Maps
+      ⁃  s
+5.	Conclusion
+⁃	s
