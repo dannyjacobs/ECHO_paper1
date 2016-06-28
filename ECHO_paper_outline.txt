@@ -19,19 +19,30 @@ ECHO Paper Outline:
    ⁃	ECHO pipeline generates beam map
    ⁃	Uses Healpix and Healpy (http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2005ApJ...622..759G&db_key=AST&high=41069202cf02947)
    ⁃	FITS output
+
 3.	Calibration
-   -
+   -  Green Bank testing?
+   -  NRAO, Green Bank Orbcomm reference dipoles testing site
+   -  Flew four runs with NS/EW polarization for each dipole
+
 
    3.1	Maps
-      ⁃  
+      ⁃
+
    3.2	Comparison to Orbcomm Ratio Maps
       ⁃	Neben: http://onlinelibrary.wiley.com/doi/10.1002/2015RS005678/abstract;jsessionid=69E36DF7FB2063E5E41A017BDC65A0EE.f02t02
+
 4.	MWA Tile
+   -
+
    4.1	Data
-      ⁃  s
+      ⁃
+
    4.2	Systematic Variation
-      ⁃  s
+      ⁃
+
    4.3	Comparison to Orbcomm Maps
-      ⁃  s
+      ⁃
+
 5.	Conclusion
-⁃	s
+   ⁃	s
