@@ -25,6 +25,7 @@
 %%define graphics path to search for images
 %\graphicspath{{./data/}}
 
+%\usepackage[justification=centering]{caption}
 
 \definecolor{orange}{RGB}{255,127,0}
 
@@ -60,6 +61,9 @@ We describe the External Calibrator for Hydrogen Observatories (ECHO)
 \section{Introduction}\label{sec:intro}
 
 \section{Design and Method}
+
+The ECHO system utilizes a X8 octoquad drone manufactured by 3DRobotics (3DR) with an onboard, programmable Valon 5007 synthesizer and a BicoLOG 30100 biconical antenna.  Capable of broadcasting between 137.5-4400 MHz, the Valon synth can be programmed to 
+
 \section{Calibration}
 \subsection{Maps}
 \subsection{Comparison to Orbcomm ratio maps}
@@ -79,5 +83,40 @@ Thanks to the National Radio Astronomy Observatory, Green Bank and to Embry Ridd
 \bibliography{library}
 
 
+% Figures at end?
+
+\onecolumn
+\begin{center}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{images/drone.png}
+\caption{Drone in flight}
+\label{fig:Drone}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.7]{images/flight_path.png}
+\caption{Flight path of drone in Green Bank, WV}
+\label{fig:Flight path}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{images/bicolog_frequency_response.png}
+\caption{Frequency response of BicoLOG 30100 biconical antenna.}
+\label{BicoLOG response}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{images/bicolog_horizontal_cut.png}
+\includegraphics[scale=0.4]{images/bicolog_vertical_cut.png}
+\caption{Horizontal (left) and vertical (right) cut through BicoLOG beam.}
+\label{fig:BicoLOG cuts}
+\end{figure}
+
+\end{center}
 
 \end{document}

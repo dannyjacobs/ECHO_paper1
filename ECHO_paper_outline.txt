@@ -18,31 +18,34 @@ ECHO Paper Outline:
          -	9 kHz to 6 GHz
    -	Drone flown in spiral pattern along hemisphere centered on antenna under test
    -	ROI for fixed transmitter polarization
-   -	ECHO pipeline generates beam map
+   -	ECHO pipeline generates beam map (See ECHO GitHub @ https://github.com/dannyjacobs/ECHO)
    -	Uses Healpix and Healpy (http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2005ApJ...622..759G&db_key=AST&high=41069202cf02947)
    -	FITS output
 
 3.	Calibration
    -  NRAO, Green Bank Orbcomm reference dipoles testing site
       - Each of the N/S reference antennae contains:
-         -  Two dipoles polarized NS/EW, respectively
+         -  Dual-polarized dipole antenna (NS/EW polarizations) aligned along NS baseline
          -  2m x 2m ground screen
          -  See Neben et al. (2015) for full description
    -  Flew four runs with NS/EW polarization for each dipole
    -  Test of ECHO system
+   -  Description of ECHO reduction pipeline?
 
    3.1	Maps
       -  Plots for Nant and Sant all dipoles/polarizations (2 x 2 plot for each antenna)
+         -  Include RMS/cuts plots?
 
    3.2	Comparison to Orbcomm Ratio Maps
       -	Neben et al. (2015): http://onlinelibrary.wiley.com/doi/10.1002/2015RS005678/abstract;jsessionid=69E36DF7FB2063E5E41A017BDC65A0EE.f02t02
       -  Modeling in CST gives beam for reference antennae
       -  Ratio plot of our beam to Abraham's beam
-         -  Get Abraham's beams?
+         -  Get Abraham's beams for reference dipoles?
 
 4.	MWA Tile
    -  Embry-Riddle Aeronautical University MWA tile used as auxiliary test
       -  Beam plot with zenith pointing
+      -  Fence around tile!
 
    4.1	Data
       -  Waypoint data flagged
@@ -52,7 +55,7 @@ ECHO Paper Outline:
       -
 
    4.3	Comparison to Orbcomm Maps
-      -
+      -  Get Abraham's beams for MWA tile?
 
 5.	Conclusion
    -	s
