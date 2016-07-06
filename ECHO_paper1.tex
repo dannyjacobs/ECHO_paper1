@@ -7,7 +7,7 @@
 \usepackage{mathrsfs}
 %\citestyle{aa}
 
-%\bibliographystyle{apj_w_etal}
+
 
 \newcommand{\etal}{{et al.\/}}
 \newcommand{\Prob}{\mathtt{P}}
@@ -66,6 +66,8 @@ We describe the External Calibrator for Hydrogen Observatories (ECHO)
 The ECHO system utilizes two networked machines which will henceforth be referred to as the ground station (GS) and the accumulation station (AS).  Each station handles a different data stream, being GPS data for the GS and radio spectrum data for the AS.  % mention realtime accumulation?
 
 For the calibration source, ECHO employs a X8 octoquad drone manufactured by 3DRobotics (3DR) with an onboard, programmable Valon 5007 synthesizer and a BicoLOG 30100 biconical antenna (see Fig.~\ref{fig:drone}).  To cover a large portion of the sky of the antenna under test (AUT), a spiral path along the surface of a sphere centered on the AUT with a radius greater than or equal to the AUT's far field distance is used.  The waypoints are generated using a Healpix map, which divides the sky up into pixels with equal area according to a user specified parameter $N_{side}$, a power of 2, and a total pixel count of $N_{pix}=12\times N_{side}^2$.  Ordered by pixel number from zenith to nadir, the altitude and azimuth of each pixel is obtained and converted to a waypoint, i.e. a list of waypoint number, latitude, longitude, and altitude.  These obtained waypoints are then written to a waypoint file in order of position, starting at the horizon and ending at zenith.  The internal GPS of the drone can then read in the generated waypoint file and autonomously follow these waypoints in flight.  A region of interest (ROI) can be declared in the waypoint file prior to the first waypoint to force the drone to always face a specific region and keep a fixed yaw, i.e. a fixed BicoLOG polarization
+
+\cite{2005ApJ...622..759G}
 
 To obtain the GPS position of the drone, MAVProxy\footnote{https://github.com/Dronecode/MAVProxy}, a ground control station written in Python implementing the MAVLink communication protocol, is used to facilitate communication between the drone and APM Planner\footnote{http://planner.ardupilot.com/planner2/index.html} on the GS. Through a TCP connection with APM Planner (the server) and the drone (the client), APM Planner records the latitude, longitude, and altitude of the drone with an associated timestamp at which the position was measured every ~300 ms.  These positions, along with many other intermittent parameters and error messages, are continuously written to a telemetry log (tlog) file.  This tlog is read and the realtime positions of the drone are recorded to a text file and made available for the AS via a queryable server setup on the GS.
 
@@ -147,5 +149,5 @@ Thanks to the National Radio Astronomy Observatory, Green Bank and to Embry Ridd
 \end{center}
 
 \fi
-
+\bibliography{library}
 \end{document}

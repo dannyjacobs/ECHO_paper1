@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  6 JUL 2016 12:39
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  6 JUL 2016 14:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -298,7 +298,12 @@ LaTeX Font Info:    Try loading font information for U+rsfs on input line 62.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
-) [1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+)
+
+Package natbib Warning: Citation `2005ApJ...622..759G' on page 1 undefined on i
+nput line 70.
+
+[1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
@@ -309,41 +314,45 @@ No file ECHO_paper1.bbl.
 File: images/drone2.jpg Graphic file (type jpg)
 
 <use images/drone2.jpg>
-Package pdftex.def Info: images/drone2.jpg used on input line 109.
+Package pdftex.def Info: images/drone2.jpg used on input line 111.
 (pdftex.def)             Requested size: 249.848pt x 154.28542pt.
  <images/drone.png, id=21, 455.7025pt x 410.53375pt>
 File: images/drone.png Graphic file (type png)
 
 <use images/drone.png>
-Package pdftex.def Info: images/drone.png used on input line 110.
+Package pdftex.def Info: images/drone.png used on input line 112.
 (pdftex.def)             Requested size: 171.7989pt x 154.77039pt.
 
 <images/flight_path.png, id=23, 326.72063pt x 260.47313pt>
 File: images/flight_path.png Graphic file (type png)
 
 <use images/flight_path.png>
-Package pdftex.def Info: images/flight_path.png used on input line 117.
+Package pdftex.def Info: images/flight_path.png used on input line 119.
 (pdftex.def)             Requested size: 228.70287pt x 182.32994pt.
 
 <images/ref_ant.png, id=24, 1105.12875pt x 508.90125pt>
 File: images/ref_ant.png Graphic file (type png)
 
 <use images/ref_ant.png>
-Package pdftex.def Info: images/ref_ant.png used on input line 124.
+Package pdftex.def Info: images/ref_ant.png used on input line 126.
 (pdftex.def)             Requested size: 442.04367pt x 203.55688pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
+
+No file ECHO_paper1.bbl.
+
+Package natbib Warning: There were undefined citations.
 
 [3
 
  <./images/drone2.jpg> <./images/drone.png> <./images/flight_path.png>]
 [4 <./images/ref_ant.png>] (./ECHO_paper1.aux) ) 
 Here is how much of TeX's memory you used:
- 3924 strings out of 493315
- 49760 string characters out of 6137904
+ 3925 strings out of 493315
+ 49781 string characters out of 6137904
  121303 words of memory out of 5000000
- 7297 multiletter control sequences out of 15000+600000
+ 7298 multiletter control sequences out of 15000+600000
  12829 words of font info for 56 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  38i,7n,35p,1336b,283s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -359,7 +368,7 @@ ype1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmsy7.pfb>
-Output written on ECHO_paper1.pdf (4 pages, 9903973 bytes).
+Output written on ECHO_paper1.pdf (4 pages, 9904204 bytes).
 PDF statistics:
  69 PDF objects out of 1000 (max. 8388607)
  44 compressed objects within 1 object stream
