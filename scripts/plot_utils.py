@@ -134,46 +134,6 @@ def animate_spectrum(i,spec_plot,spec_line,spec_raw):
     return
 
 
-def animate_peak(i,peak_plot,peak_line,noise_line,pkrms_plot,pkrms_line,spec_times,\
-                           spec_raw,peaktimes,peakvals,peakfreqs,rmss,peakrmss,freqs,\
-                           fmin,fmax,time_range=200,rmswindow=10):
-    currtime = spec_times[i]
-    if currtime == peaktimes[-1]:
-        return
-    peakfreq,peakval,rms = find_peak(freqs,spec_raw[i,:],fmin=fmin,fmax=fmax)
-    peaktimes.append(currtime)
-    peakvals.append(peakval)
-    peakfreqs.append(peakfreq)
-    rmss.append(rms)
-
-    labels = []
-    for label in peak_plot.get_xticks():
-        labels.append(gps_to_HMS(label,fmt='gps').split('.')[0])
-
-    if len(peakvals)<rmswindow:
-        peakrmss.append(np.std(peakvals))
-    else:
-        peakrmss.append(np.std(peakvals[-rmswindow:]))
-
-    # Update peak plot
-    peak_line.set_xdata(peaktimes)
-    peak_line.set_ydata(peakvals)
-    peak_plot.relim()
-    peak_plot.autoscale_view(True,True,True)
-    peak_plot.set_xlim([currtime-time_range,currtime])
-    peak_plot.set_xticklabels(labels)
-    noise_line.set_xdata(peaktimes)
-    noise_line.set_ydata(rmss)
-
-    # Update peak RMS plot
-    pkrms_line.set_xdata(peaktimes)
-    pkrms_line.set_ydata(peakrmss)
-    pkrms_plot.relim()
-    pkrms_plot.set_xlim([currtime-time_range,currtime])
-    pkrms_plot.set_xticklabels(labels)
-    pkrms_plot.autoscale_view(True,True,True)
-
-
 def make_polycoll(hpx_beam,plot_lim=[-90,-50],nsides=8):
     pix = np.where(np.isnan(hpx_beam)==False)[0]
     boundaries = hp.boundaries(nsides,pix)
@@ -182,62 +142,6 @@ def make_polycoll(hpx_beam,plot_lim=[-90,-50],nsides=8):
                                     cmap=cm.gnuplot,edgecolors='none')
     return coll
 
-
-def animate_beam(beam_plot,hpx_beam,fig,cax,cbar,plot_lim=[-40,5],nsides=8):
-    coll = make_polycoll(hpx_beam,nsides=8)#,plot_lim=plot_lim)
-    cax.cla()
-    cbar = fig.colorbar(coll, cax=cax, use_gridspec=True, label='dB')
-    beam_plot.collections.remove(beam_plot.collections[-1])
-    beam_plot.add_collection(coll)
-
-
-def adjustErrbarxy(errobj, x, y, y_error):
-    ln, (erry_top, erry_bot), barsy = errobj
-    x_base = ln.get_xdata()
-    y_base = y
-    ln.set_ydata(y)
-    yerr_top = y_base + y_error
-    yerr_bot = y_base - y_error
-    erry_top.set_xdata(x_base)
-    erry_bot.set_xdata(x_base)
-    erry_top.set_ydata(yerr_top)
-    erry_bot.set_ydata(yerr_bot)
-    new_segments_y = [np.array([[x, yt], [x,yb]]) for x, yt, yb in zip(x_base, yerr_top, yerr_bot)]
-    barsy[0].set_segments(new_segments_y)
-
-
-def animate_cuts(cuts_plot,cuts_E_line,cuts_H_line,hpx_beam,hpx_rms,ell,az):
-    beam_slice_E = hp.pixelfunc.get_interp_val(hpx_beam,ell,az)
-    beam_slice_E_err = hp.pixelfunc.get_interp_val(hpx_rms,ell,az)
-    beam_slice_H = hp.pixelfunc.get_interp_val(hpx_beam,ell,az+np.pi/2)
-    beam_slice_H_err = hp.pixelfunc.get_interp_val(hpx_rms,ell,az+np.pi/2)
-
-    beam_slice_E = np.ma.masked_invalid(beam_slice_E)
-    beam_slice_E_err = np.ma.masked_invalid(beam_slice_E_err)
-    beam_slice_H = np.ma.masked_invalid(beam_slice_H)
-    beam_slice_H_err = np.ma.masked_invalid(beam_slice_H_err)
-
-    adjustErrbarxy(cuts_E_line,ell,beam_slice_E,beam_slice_E_err)
-    adjustErrbarxy(cuts_H_line,ell,beam_slice_H,beam_slice_H_err)
-
-    #cuts_plot.autoscale(axis='y')
-    E_min = np.nanmin(beam_slice_E)-np.nanmin(beam_slice_E_err)
-    H_min = np.nanmin(beam_slice_H)-np.nanmin(beam_slice_H_err)
-    E_max = np.nanmax(beam_slice_E)+np.nanmax(beam_slice_E_err)
-    H_max = np.nanmax(beam_slice_H)+np.nanmax(beam_slice_H_err)
-
-    if not np.logical_and(np.isnan(E_min),np.isnan(H_min)):
-        if not np.logical_and(np.isnan(E_max),np.isnan(H_max)):
-            cuts_min = min(E_min,H_min)
-            cuts_max = max(E_max,H_max)
-            """
-            print '----------------------'
-            print E_min,H_min
-            print E_max,H_max
-            print cuts_min,cuts_max
-            print '----------------------\n'
-            """
-            cuts_plot.set_ylim([cuts_min,cuts_max])
 
 def get_interp_val(m,theta,phi,nest=False):
     m2=m.ravel()

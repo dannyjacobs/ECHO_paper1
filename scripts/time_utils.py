@@ -23,7 +23,7 @@ def find_peak(f,x,fmin=0,fmax=500):
 
 
 def inrange(tr,t,diff=3):
-    for i in range(0,len(tr)):
+    for i in range(len(tr)):
         if (t>=tr[i]-diff) and (t<=tr[i]+diff):
             return True
     return False

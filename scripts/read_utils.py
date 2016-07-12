@@ -9,7 +9,7 @@ APMLOG_SEC_PER_TICK = 1.0e-6
 NFFT = 1024
 
 
-def get_data(infile,filetype=None,freqs=[],freq=0.0,freq_chan=None,
+def get_data(infile,filetype=None,freqs=[],freq=137.500,freq_chan=None,
                    ant=None,dip=None,width=100,times=None,waypts=None):#isList=False,
 
     if filetype == 'gps':
@@ -36,25 +36,43 @@ def get_data(infile,filetype=None,freqs=[],freq=0.0,freq_chan=None,
 
     elif filetype == 'apm':
         lats,lons,alts = [],[],[]
+        yaw_times,yaws = [],[]
         weektimes = []
+        flight_inds = []
         apm_files = glob.glob(infile)
         for apm_file in apm_files:
             print 'Reading in %s...' %apm_file
+            isGPS = True
             lines = open(apm_file).readlines()
             if not len(lines) == 0:
-                for line in lines:
+                for i,line in enumerate(lines):
                     if line.startswith('GPS'):
                         lats.append(map(float,line.split(',')[7:8]))
                         lons.append(map(float,line.split(',')[8:9]))
                         alts.append(map(float,line.split(',')[9:10]))
                         weektimes.append(map(float,line.split(',')[3:5])) #ms and week number
+                        if isGPS:
+                            start_time = float(line.split(',')[1])/1000.
+                            flight_inds.append(i)
+                            isGPS = False
+                            print start_time
+                    if line.startswith('ATT') and not isGPS:
+                       yaw_times.append(map(float,[line.split(',')[1].strip(' ')]))
+                       yaw_times[-1][0] -= start_time
+                       yaws.append(map(float,[line.split(',')[7].strip(' ')]))
         weektimes = np.array(weektimes)
         apm_times = weektimes[:,1]*SEC_PER_WEEK+weektimes[:,0]/1000.
         apm_times = Time(apm_times,format='gps')
+
+        yaw_times = np.array(yaw_times)
+        yaw_times = yaw_times/1000.+apm_times.gps[0]#-start_time/1000.
+        yaw_times = Time(yaw_times, format = 'gps')
+
         lats = np.array(lats).squeeze()
         lons = np.array(lons).squeeze()
         alts = np.array(alts).squeeze()
-        return apm_times,lats,lons,alts
+        yaws = np.array(yaws).squeeze()
+        return apm_times,lats,lons,alts,yaw_times,yaws
 
     elif filetype == 'sh':
         spec_times = []
@@ -115,7 +133,7 @@ def get_data(infile,filetype=None,freqs=[],freq=0.0,freq_chan=None,
         for line in lines: # Data begins on fifth line of accumulated file
             if line.startswith('#'):
                 continue
-            elif not line.split(',')[1] == '-1':
+            else:
                 all_Data.append(map(float,line.rstrip('\n').split(',')))
         all_Data = np.array(all_Data)
         spec_times,lats,lons,alts,yaws = (all_Data[:,1],all_Data[:,2],\
@@ -182,10 +200,10 @@ def get_start_stop_times(infile):
 def get_way(infile):
     lines=open(infile).readlines()
     GPS_weektimes,GPS_arm,CMD_time,CMD_num =[],[],[],[]
-    for line in lines[630:]:
+    for line in lines:
         if line.startswith('GPS'):
-            GPS_weektimes.append(map(float,line.split(',')[3:5]))
-            GPS_arm.append(float(line.split(',')[1]))
+            GPS_weektimes.append(map(float,line.split(',')[2:4]))
+            GPS_arm.append(float(line.split(',')[13]))
         if line.startswith('CMD'):
             CMD_time.append(float(line.split(',')[1].strip()))
             CMD_num.append(int(line.split(',')[3].strip()))
@@ -218,7 +236,7 @@ def get_filter_times(infile,first_waypt=3,waypts=False):
         if waypts:
             for i in range(1,CMD_times.shape[0]):
                 waypoint_times.append(CMD_times[i].gps)
-    print start_stop_times
+
     start_stop_times = np.array(start_stop_times)
     if waypts:
         waypoint_times = np.array(waypoint_times)
