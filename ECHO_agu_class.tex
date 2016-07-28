@@ -1,0 +1,686 @@
+%% 11/23/2015
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AGUJournalTemplate.tex: this template file is for articles formatted with LaTeX
+%
+% This file includes commands and instructions
+% given in the order necessary to produce a final output that will
+% satisfy AGU requirements. 
+%
+% You may copy this file and give it your
+% article name, and enter your text.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PLEASE DO NOT USE YOUR OWN MACROS
+% DO NOT USE \newcommand, \renewcommand, or \def, etc.
+%
+% FOR FIGURES, DO NOT USE \psfrag or \subfigure.
+% DO NOT USE \psfrag or \subfigure commands.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% All questions should be e-mailed to latex@agu.org.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Step 1: Set the \documentclass
+%
+% There are two options for article format:
+%
+% 1) PLEASE USE THE DRAFT OPTION TO SUBMIT YOUR PAPERS.
+% The draft option produces double spaced output.
+% 
+% 2) numberline will give you line numbers.
+
+%% To submit your paper:
+\documentclass[draft,ras]{AGUJournal}
+\draftfalse
+
+\usepackage{comment}
+
+%% For final version.
+% \documentclass{AGUJournal}
+
+% Now, type in the journal name: \journalname{<Journal Name>}
+
+% ie, \journalname{Journal of Geophysical Research}
+%% Choose from this list of Journals:
+%
+% JGR-Atmospheres
+% JGR-Biogeosciences
+% JGR-Earth Surface
+% JGR-Oceans
+% JGR-Planets
+% JGR-Solid Earth
+% JGR-Space Physics
+% Global Biochemical Cycles
+% Geophysical Research Letters
+% Paleoceanography
+% Radio Science
+% Reviews of Geophysics
+% Tectonics
+% Space Weather
+% Water Resource Research
+% Geochemistry, Geophysics, Geosystems
+% Journal of Advances in Modeling Earth Systems (JAMES)
+% Earth's Future
+% Earth and Space Science
+%
+%
+
+\journalname{Radio Science}
+
+
+\begin{document}
+
+%% ------------------------------------------------------------------------ %%
+%  Title
+% 
+% (A title should be specific, informative, and brief. Use
+% abbreviations only if they are defined in the abstract. Titles that
+% start with general keywords then specific terms are optimized in
+% searches)
+%
+%% ------------------------------------------------------------------------ %%
+
+% Example: \title{This is a test title}
+
+\title{The External Calibrator for Hydrogen Arrays}
+
+%% ------------------------------------------------------------------------ %%
+%
+%  AUTHORS AND AFFILIATIONS
+%
+%% ------------------------------------------------------------------------ %%
+
+% Authors are individuals who have significantly contributed to the
+% research and preparation of the article. Group authors are allowed, if
+% each author in the group is separately identified in an appendix.)
+
+% List authors by first name or initial followed by last name and
+% separated by commas. Use \affil{} to number affiliations, and
+% \thanks{} for author notes.  
+% Additional author notes should be indicated with \thanks{} (for
+% example, for current addresses). 
+
+% Example: \authors{A. B. Author\affil{1}\thanks{Current address, Antartica}, B. C. Author\affil{2,3}, and D. E.
+% Author\affil{3,4}\thanks{Also funded by Monsanto.}}
+
+\authors{
+Daniel C. Jacobs\affil{1},
+Jacob Burba\affil{1},
+Judd Bowman\affil{1},
+Lauren Turner\affil{1},
+Kali Johnson\affil{1}
+}
+
+
+% \affiliation{1}{First Affiliation}
+% \affiliation{2}{Second Affiliation}
+% \affiliation{3}{Third Affiliation}
+% \affiliation{4}{Fourth Affiliation}
+
+\affiliation{1}{School of Earth and Space Exploration, Arizona State U., Tempe, AZ, 85287}
+%(repeat as many times as is necessary)
+
+%% Corresponding Author:
+% Corresponding author mailing address and e-mail address:
+
+% (include name and email addresses of the corresponding author.  More
+% than one corresponding author is allowed in this LaTeX file and for
+% publication; but only one corresponding author is allowed in our
+% editorial system.)  
+
+% Example: \correspondingauthor{First and Last Name}{email@address.edu}
+
+%\correspondingauthor{=name=}{=email address=}
+
+%% Keypoints, final entry on title page.
+
+% Example: 
+% \begin{keypoints}
+% \item	List up to three key points (at least one is required)
+% \item	Key Points summarize the main points and conclusions of the article
+% \item	Each must be 100 characters or less with no special characters or punctuation 
+% \end{keypoints}
+
+%  List up to three key points (at least one is required)
+%  Key Points summarize the main points and conclusions of the article
+%  Each must be 100 characters or less with no special characters or punctuation 
+
+\begin{keypoints}
+\item
+%\item = enter point 1 here = 
+%\item = enter point 2 here = 
+%\item = enter point 3 here = 
+\end{keypoints}
+
+%% ------------------------------------------------------------------------ %%
+%
+%  ABSTRACT
+%
+% A good abstract will begin with a short description of the problem
+% being addressed, briefly describe the new data or analyses, then
+% briefly states the main conclusion(s) and how they are supported and
+% uncertainties. 
+%% ------------------------------------------------------------------------ %%
+
+%% \begin{abstract} starts the second page 
+
+\begin{abstract}
+We describe the External Calibrator for Hydrogen Observatories (ECHO)
+\end{abstract}
+
+
+%% ------------------------------------------------------------------------ %%
+%
+%  TEXT
+%
+%% ------------------------------------------------------------------------ %%
+
+%%% Suggested section heads:
+% \section{Introduction}
+% 
+% The main text should start with an introduction. Except for short
+% manuscripts (such as comments and replies), the text should be divided
+% into sections, each with its own heading. 
+
+% Headings should be sentence fragments and do not begin with a
+% lowercase letter or number. Examples of good headings are:
+
+% \section{Materials and Methods}
+% Here is text on Materials and Methods.
+%
+% \subsection{A descriptive heading about methods}
+% More about Methods.
+% 
+% \section{Data} (Or section title might be a descriptive heading about data)
+% 
+% \section{Results} (Or section title might be a descriptive heading about the
+% results)
+% 
+% \section{Conclusions}
+
+
+\section{Introduction}\label{sec:intro}
+
+A new generation of radio arrays is being developed that use large numbers of low-cost elements, such as phased tiles of dipole antennas. This is made possible by developments in digital technology and enables exploration of new windows on the universe such as the epoch of reionization (EoR) via the redshifted 21 cm line (Morales \& Wyithe 2010; Madau et al. 1997; Loeb \& Zaldarriaga 2004; Loeb \& Barkana 2001; Furlanetto et al. 2006). Precise calibration of the primary beams of these dipole arrays has been found to be crucial to analysis of observations from the the Murchison Widefield Array (MWA; Tingay et al. (2013); Bowman et al. (2013)), the Precision Array for Probing the Epoch of Reionization (PAPER; Pober et al. (2013); Parsons et al. (2010); Jacobs et al. (2011)), and the Low Frequency Array (LOFAR; Yatawatta et al. (2013)). Beam calibration of low frequency dipole arrays poses several complications compared to traditional dish antennas. Most notable is that holographic beam calibration is not possible because the dipole array beams are steered electronically and are unique at every pointing direction. Drift scan calibration of dipole array beams is possible, but requires the test antenna/array to be embedded within an existing array that generates sufficient sensitivity to isolate a large number of radio sources to provide many tracks through the beam. Pober et al. (2012) have employed symmetry arguments to reduce the needed number of sources on the sky and improve the result for PAPER antennas, but this is not possible in general for more complicated dipole array beam patterns. Attempts have been made to use anechoic chambers to calibrate low-frequency phased arrays, but the measurements suffer since even the largest chambers cannot extend into the farfield pattern and the RF absorber material used in the chambers performs poorly below 150 MHz, creating reflections and resonances. Mapping of the dipole beams using the Orbcomm constellation of satellites has proven effective (Neben, Bradley and Hewitt in prep) but is limited to only a single frequency (138 MHz).
+
+%The work proposed here will develop a method for directly measuring, in-situ, the response of dipoles, phased array tiles, and other experimental low-frequency receptors, particularly new elements proposed for the second generation Hydrogen Epoch of Reionization Array (HERA). The proposed method use a remotely controlled unmanned aerial vehicle equipped with a calibrated transmitting antenna and GPS and inertial position loggers to provide a known mulit-frequency reference signal for calibrating low-frequency antennas. Substantial initial development work has been performed already to design and characterize a prototype system. Here, we request modest funds (\$99,187 over two years) to support the implementation of a mature, deployable system based on our prototype efforts. A team of undergraduates, led by one postdoc (0.1 FTE), will assemble and field the prototype in a series of field experiments with the goal of routinely mapping the primary beams of several low frequency arrays, including the HERA prototype antenna installation outside Berkeley, CA.
+
+
+
+\section{Design and Method}
+
+%The ECHO system utilizes two networked machines which will henceforth be referred to as the ground station (GS) and the accumulation station (AS).  Each station handles a different data stream, being GPS data for the GS and radio spectrum data for the AS.  % mention realtime accumulation?
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.18]{images/drone2.png}
+\includegraphics[scale=0.339]{images/drone.png}
+\caption{3DR X8 octoquad drone prior to launch (left) and in flight (right).  The Valon synth is contained in the black project box mounted on top of the drone.  A copper plate, which acts as shielding from the electronics below, with the attached GPS magnetometer can be seen atop the project box. Beneath the drone, the BicoLOG antenna, which is blue in color, can be seen.}
+\label{fig:drone}
+\end{figure}
+
+
+For the calibration source, ECHO employs a X8 octoquad drone manufactured by 3DRobotics (3DR) with an onboard, programmable Valon 5007 synthesizer and a BicoLOG 30100 biconical antenna (see Fig.~\ref{fig:drone}).  To cover a large portion of the sky of the antenna under test (AUT), a spiral path along the surface of a sphere centered on the AUT with a radius greater than or equal to the AUT's far field distance is used.  The waypoints are generated using a Healpix map, which divides the sky up into pixels with equal area according to a user specified parameter $N_{side}$, a power of 2, and a total pixel count of $N_{pix}=12\times N_{side}^2$.  Ordered by pixel number from zenith to nadir, the altitude and azimuth of each pixel is obtained and converted to a waypoint, i.e. a list of waypoint number, latitude, longitude, and altitude.  These obtained waypoints are then written to a waypoint file in order of position, starting at the horizon and ending at zenith.  The internal GPS of the drone can then read in the generated waypoint file and autonomously follow these waypoints in flight.  A region of interest (ROI) can be declared in the waypoint file prior to the first waypoint to force the drone to always face a specific region and keep a fixed yaw, i.e. a fixed BicoLOG polarization
+
+\begin{comment}
+
+\cite{2005ApJ...622..759G}
+
+To obtain the GPS position of the drone, MAVProxy\footnote{https://github.com/Dronecode/MAVProxy}, a ground control station written in Python implementing the MAVLink communication protocol, is used to facilitate communication between the drone and APM Planner\footnote{http://planner.ardupilot.com/planner2/index.html} on the GS. Through a TCP connection with APM Planner (the server) and the drone (the client), APM Planner records the latitude, longitude, and altitude of the drone with an associated timestamp at which the position was measured every ~300 ms.  These positions, along with many other intermittent parameters and error messages, are continuously written to a telemetry log (tlog) file.  This tlog is read and the realtime positions of the drone are recorded to a text file and made available for the AS via a queryable server setup on the GS.
+
+In flight, the Valon synth is set to broadcast at a set frequency and power in the range of 137.5-4400 MHz.  A Signal Hound (SH) BB60A 9 kHz to 6 GHz spectrum analyzer is used to measure the signal received by the AUT which records a radio spectrum in dB with an associated timestamp.  The bandwidth of the recorded spectrum and its associated resolution can be modified based upon user input parameters pertaining to the number of FFT bins, the central frequency, and the bandwidth which cannot exceed 20 MHz.  The radio spectrum data is then read in and each time associated with a spectrum is used to query the server on the GS.  The output of which is an interpolated GPS position in the form of latitude, longitude, and altitude.  If there is no valid GPS data at the query time, then -1 is returned for each of the aforementioned values.  An accumulated file containing each query time and the associated latitude, longitude, altitude, and radio spectrum is then generated and used to produce a FITS file containing the primary beam response of the AUT.
+
+\end{comment}
+
+
+\cite{2005ApJ...622..759G}
+
+
+
+
+
+
+\section{Calibration}
+
+The first full scale test of the ECHO system was done in August, 2015 at the National Radio Astronomy Observatory (NRAO) site in Green Bank, WV.  Two dual-polarization dipoles (see Fig.~\ref{fig:dual dipole}) used in the development of a calibration technique utilizing the ORBCOMM satellite constellation (Neben et al. 2015) were used as the AUTs.  With a dipole length of 90.4 cm and a Valon synth frequency of 137.5 MHz, a flight radius of 100m was chosen, well into the far-field of the dipoles.  Choosing a flight speed of 0.2 dam s$^{-1}$ and $N_{side}=8$, each flight ECHO performed took ~60 min.  Four total flights were performed as each antenna contained two dipoles and thus needed to be tested with two flights, one with a polarization of the BicoLOG matching the polarization of one of the dipoles.  This also allowed cross-polarization measurements of each antenna to be made.
+
+
+\subsection{Maps}
+
+The resulting maps can be seen somewhere... eventually...
+
+\subsection{Comparison to Orbcomm Ratio Maps}
+
+
+
+
+\section{MWA Tile}
+
+\subsection{Data}
+
+\subsection{Systematic Variation}
+
+\subsection{Comparison to Orbcomm Maps}
+
+
+
+
+
+\section{Conclusion}
+
+
+%%
+
+%  Numbered lines in equations:
+%  To add line numbers to lines in equations,
+%  \begin{linenomath*}
+%  \begin{equation}
+%  \end{equation}
+%  \end{linenomath*}
+
+
+
+%% Enter Figures and Tables near as possible to where they are first mentioned:
+%
+% DO NOT USE \psfrag or \subfigure commands.
+%
+% Figure captions go below the figure.
+% Table titles go above tables;  other caption information
+%  should be placed in last line of the table, using
+% \multicolumn2l{$^a$ This is a table note.}
+%
+%----------------
+% EXAMPLE FIGURE
+%
+% \begin{figure}[h]
+% \centering
+% when using pdflatex, use pdf file:
+% \includegraphics[width=20pc]{figsamp.pdf}
+%
+% when using dvips, use .eps file:
+% \includegraphics[width=20pc]{figsamp.eps}
+%
+% \caption{Short caption}
+% \label{figone}
+%  \end{figure}
+%
+% ---------------
+% EXAMPLE TABLE
+%
+% \begin{table}
+% \caption{Time of the Transition Between Phase 1 and Phase 2$^{a}$}
+% \centering
+% \begin{tabular}{l c}
+% \hline
+%  Run  & Time (min)  \\
+% \hline
+%   $l1$  & 260   \\
+%   $l2$  & 300   \\
+%   $l3$  & 340   \\
+%   $h1$  & 270   \\
+%   $h2$  & 250   \\
+%   $h3$  & 380   \\
+%   $r1$  & 370   \\
+%   $r2$  & 390   \\
+% \hline
+% \multicolumn{2}{l}{$^{a}$Footnote text here.}
+% \end{tabular}
+% \end{table}
+
+%% SIDEWAYS FIGURE and TABLE 
+% AGU prefers the use of {sidewaystable} over {landscapetable} as it causes fewer problems.
+%
+% \begin{sidewaysfigure}
+% \includegraphics[width=20pc]{figsamp}
+% \caption{caption here}
+% \label{newfig}
+% \end{sidewaysfigure}
+% 
+%  \begin{sidewaystable}
+%  \caption{Caption here}
+% \label{tab:signif_gap_clos}
+%  \begin{tabular}{ccc}
+% one&two&three\\
+% four&five&six
+%  \end{tabular}
+%  \end{sidewaystable}
+
+%% If using numbered lines, please surround equations with \begin{linenomath*}...\end{linenomath*}
+%\begin{linenomath*}
+%\begin{equation}
+%y|{f} \sim g(m, \sigma),
+%\end{equation}
+%\end{linenomath*}
+
+%%% End of body of article
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optional Appendix goes here
+%
+% The \appendix command resets counters and redefines section heads
+%
+% After typing \appendix
+%
+%\section{Here Is Appendix Title}
+% will show
+% A: Here Is Appendix Title
+%
+%\appendix
+%\section{Here is a sample appendix}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Optional Glossary, Notation or Acronym section goes here:
+%
+%%%%%%%%%%%%%%  
+% Glossary is only allowed in Reviews of Geophysics
+%  \begin{glossary}
+%  \term{Term}
+%   Term Definition here
+%  \term{Term}
+%   Term Definition here
+%  \term{Term}
+%   Term Definition here
+%  \end{glossary}
+
+%
+%%%%%%%%%%%%%%
+% Acronyms
+%   \begin{acronyms}
+%   \acro{Acronym}
+%   Definition here
+%   \acro{EMOS}
+%   Ensemble model output statistics 
+%   \acro{ECMWF}
+%   Centre for Medium-Range Weather Forecasts
+%   \end{acronyms}
+
+%
+%%%%%%%%%%%%%%
+% Notation 
+%   \begin{notation}
+%   \notation{$a+b$} Notation Definition here
+%   \notation{$e=mc^2$} 
+%   Equation in German-born physicist Albert Einstein's theory of special
+%  relativity that showed that the increased relativistic mass ($m$) of a
+%  body comes from the energy of motion of the body—that is, its kinetic
+%  energy ($E$)—divided by the speed of light squared ($c^2$).
+%   \end{notation}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  ACKNOWLEDGMENTS
+%
+% The acknowledgments must list:
+%
+% •	All funding sources related to this work from all authors
+%
+% •	Any real or perceived financial conflicts of interests for any
+%	author
+%
+% •	Other affiliations for any author that may be perceived as
+% 	having a conflict of interest with respect to the results of this
+% 	paper.
+%
+% •	A statement that indicates to the reader where the data
+% 	supporting the conclusions can be obtained (for example, in the
+% 	references, tables, supporting information, and other databases).
+%
+% It is also the appropriate place to thank colleagues and other contributors. 
+% AGU does not normally allow dedications.
+
+
+\acknowledgments
+ECHO is supported by a grant from the National Science Foundation (NSF; award number 1407646). D.C.J would like to acknowledge NSF support  under award 1401708.
+Thanks to the National Radio Astronomy Observatory, Green Bank and to Embry Riddle Aeronautical Observatory for cooperatively supporting site operations.
+
+
+%% ------------------------------------------------------------------------ %%
+%% Citations
+
+% Please use ONLY \citet and \citep for reference citations.
+% DO NOT use other cite commands (e.g., \cite, \citeyear, \nocite, \citealp, etc.).
+
+
+%% Example \citet and \citep:
+%  ...as shown by \citet{Boug10}, \citet{Buiz07}, \citet{Fra10},
+%  \citet{Ghel00}, and \citet{Leit74}. 
+
+%  ...as shown by \citep{Boug10}, \citep{Buiz07}, \citep{Fra10},
+%  \citep{Ghel00, Leit74}. 
+
+%  ...has been shown \citep [e.g.,][]{Boug10,Buiz07,Fra10}.
+
+
+
+%%  REFERENCE LIST AND TEXT CITATIONS
+%
+% Either type in your references using
+%
+% \begin{thebibliography}{}
+% \bibitem[{\textit{Kobayashi et~al.}}(2003)]{R2013} Kobayashi, T.,
+% Tran, A.~H., Nishijo, H., Ono, T., and Matsumoto, G.  (2003).
+% Contribution of hippocampal place cell activity to learning and
+% formation of goal-directed navigation in rats. \textit{Neuroscience}
+% 117, 1025--1035.
+%
+% \bibitem{}
+% Text
+% \end{thebibliography}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Or, to use BibTeX:
+%
+% Follow these steps
+%
+% 1. Type in \bibliography{<name of your .bib file>} 
+%    Run LaTeX on your LaTeX file.
+%
+% 2. Run BiBTeX on your LaTeX file.
+%
+% 3. Open the new .bbl file containing the reference list and
+%   copy all the contents into your LaTeX file here.
+%
+% 4. Run LaTeX on your new file which will produce the citations.
+%
+% AGU does not want a .bib or a .bbl file. Please copy in the contents of your .bbl file here.
+
+
+%% After you run BibTeX, Copy in the contents of the .bbl file here:
+\begin{thebibliography}{1}
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{\textit{{G{\'o}rski} et~al.}(2005)\textit{{G{\'o}rski}, {Hivon},
+  {Banday}, {Wandelt}, {Hansen}, {Reinecke}, and
+  {Bartelmann}}}]{2005ApJ...622..759G}
+{G{\'o}rski}, K.~M., E.~{Hivon}, A.~J. {Banday}, B.~D. {Wandelt}, F.~K.
+  {Hansen}, M.~{Reinecke}, and M.~{Bartelmann} (2005), {HEALPix: A Framework
+  for High-Resolution Discretization and Fast Analysis of Data Distributed on
+  the Sphere}, \textit{ApJ}, \textit{622}, 759--771, \doi{10.1086/427976}.
+
+\end{thebibliography}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Track Changes:
+% To add words, \added{<word added>}
+% To delete words, \deleted{<word deleted>}
+% To replace words, \replace{<word to be replaced>}{<replacement word>}
+% To explain why change was made: \explain{<explanation>} This will put
+% a comment into the right margin.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% At the end of the document, use \listofchanges, which will list the
+% changes and the page and line number where the change was made.
+
+% When final version, \listofchanges will not produce anything,
+% \added{<word or words>} word will be printed, \deleted{<word or words} will take away the word,
+% \replaced{<delete this word>}{<replace with this word>} will print only the replacement word.
+%  In the final version, \explain will not print anything.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%
+\listofchanges
+%%%
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Supporting Information
+%% (Optional) See AGUSuppInfoSamp.tex/pdf for requirements 
+%% for Supporting Information.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+More Information and Advice:
+
+%% ------------------------------------------------------------------------ %%
+%
+%  SECTION HEADS
+%
+%% ------------------------------------------------------------------------ %%
+
+% Capitalize the first letter of each word (except for
+% prepositions, conjunctions, and articles that are
+% three or fewer letters).
+
+% AGU follows standard outline style; therefore, there cannot be a section 1 without
+% a section 2, or a section 2.3.1 without a section 2.3.2.
+% Please make sure your section numbers are balanced.
+% ---------------
+% Level 1 head
+%
+% Use the \section{} command to identify level 1 heads;
+% type the appropriate head wording between the curly
+% brackets, as shown below.
+%
+%An example:
+%\section{Level 1 Head: Introduction}
+%
+% ---------------
+% Level 2 head
+%
+% Use the \subsection{} command to identify level 2 heads.
+%An example:
+%\subsection{Level 2 Head}
+%
+% ---------------
+% Level 3 head
+%
+% Use the \subsubsection{} command to identify level 3 heads
+%An example:
+%\subsubsection{Level 3 Head}
+%
+%---------------
+% Level 4 head
+%
+% Use the \subsubsubsection{} command to identify level 3 heads
+% An example:
+%\subsubsubsection{Level 4 Head} An example.
+%
+%% ------------------------------------------------------------------------ %%
+%
+%  IN-TEXT LISTS
+%
+%% ------------------------------------------------------------------------ %%
+%
+% Do not use bulleted lists; enumerated lists are okay.
+% \begin{enumerate}
+% \item
+% \item
+% \item
+% \end{enumerate}
+%
+%% ------------------------------------------------------------------------ %%
+%
+%  EQUATIONS
+%
+%% ------------------------------------------------------------------------ %%
+
+% Single-line equations are centered.
+% Equation arrays will appear left-aligned.
+
+Math coded inside display math mode \[ ...\]
+ will not be numbered, e.g.,:
+ \[ x^2=y^2 + z^2\]
+
+ Math coded inside \begin{equation} and \end{equation} will
+ be automatically numbered, e.g.,:
+ \begin{equation}
+ x^2=y^2 + z^2
+ \end{equation}
+
+
+% To create multiline equations, use the
+% \begin{eqnarray} and \end{eqnarray} environment
+% as demonstrated below.
+\begin{eqnarray}
+  x_{1} & = & (x - x_{0}) \cos \Theta \nonumber \\
+        && + (y - y_{0}) \sin \Theta  \nonumber \\
+  y_{1} & = & -(x - x_{0}) \sin \Theta \nonumber \\
+        && + (y - y_{0}) \cos \Theta.
+\end{eqnarray}
+
+%If you don't want an equation number, use the star form:
+%\begin{eqnarray*}...\end{eqnarray*}
+
+% Break each line at a sign of operation
+% (+, -, etc.) if possible, with the sign of operation
+% on the new line.
+
+% Indent second and subsequent lines to align with
+% the first character following the equal sign on the
+% first line.
+
+% Use an \hspace{} command to insert horizontal space
+% into your equation if necessary. Place an appropriate
+% unit of measure between the curly braces, e.g.
+% \hspace{1in}; you may have to experiment to achieve
+% the correct amount of space.
+
+
+%% ------------------------------------------------------------------------ %%
+%
+%  EQUATION NUMBERING: COUNTER
+%
+%% ------------------------------------------------------------------------ %%
+
+% You may change equation numbering by resetting
+% the equation counter or by explicitly numbering
+% an equation.
+
+% To explicitly number an equation, type \eqnum{}
+% (with the desired number between the brackets)
+% after the \begin{equation} or \begin{eqnarray}
+% command.  The \eqnum{} command will affect only
+% the equation it appears with; LaTeX will number
+% any equations appearing later in the manuscript
+% according to the equation counter.
+%
+
+% If you have a multiline equation that needs only
+% one equation number, use a \nonumber command in
+% front of the double backslashes (\\) as shown in
+% the multiline equation above.
+
+% If you are using line numbers, remember to surround
+% equations with \begin{linenomath*}...\end{linenomath*}
+
+%  To add line numbers to lines in equations:
+%  \begin{linenomath*}
+%  \begin{equation}
+%  \end{equation}
+%  \end{linenomath*}
+
+
+

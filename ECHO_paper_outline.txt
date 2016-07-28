@@ -1,0 +1,74 @@
+ECHO Paper Outline:
+
+1.	Introduction
+   -  21cm cosmology bit
+   -  HERA (Deboer 2016 arxiv)
+   -	Primary beam response needed for:
+      -	Foreground subtraction - need to know low elevation angle response
+            -  i.e. low level nulls
+            - (Thyagarajan 2015a/b, Pober 2015)
+      -  Spectral response  (thyagarajan 2016)
+      -  Know to horizon/nulls (deviations from redundancy, FHD)
+      -  as-built variation (Neben et al 2015)
+   - why green bank -> calibrate against known standard (the dipoles) and against previous measurements (neben et al orbcomm)
+   - why mwa tiles -> to compare with previous measurements, tiles give fullest control over variation (can turn antennas off and on)
+2.	Design and Method
+   -	Experimental setup
+      -	3DR X8 octoquad drone
+         -	Preprogram flight path using internal GPS, use the actual positions from the log
+      -	Valon 5007 dual frequency synthesizer
+         -	137.5-4400 MHz
+      -	BicoLOG 30100 biconical antenna
+         -  30 MHz to 1 GHz
+      -	Signal Hound BB60A Spectrum Analyzer
+         -	9 kHz to 6 GHz
+      Picture of drone
+   -	Drone flown in healpix (ring) pattern along hemisphere centered on antenna under test
+   -	fixed transmitter polarization angle (this limitation discussed at the end)
+   -	ECHO pipeline generates beam map (describe mapping process in verbs, cite ECHO GitHub @ https://github.com/dannyjacobs/ECHO)
+   - show a single mapping run through the process
+   -	Uses Healpix and Healpy (http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2005ApJ...622..759G&db_key=AST&high=41069202cf02947)
+
+
+3.	Calibration
+   - sources of variability (navigation precision > GPS precision, verifying that GPS positions accurately reflect the actual position)
+   -  NRAO, Green Bank Orbcomm reference dipoles testing site
+      - Each of the N/S reference antennae contains:
+         -  Dual-polarized dipole antenna (NS/EW polarizations) aligned along NS baseline
+         -  2m x 2m ground screen
+         -  See Neben et al. (2015) for full description
+   -  Flew four runs with NS/EW polarization for each dipole
+
+
+   3.1	Maps
+      -  Plots for Nant and Sant EW
+      -  cuts of N and S.
+      - include CST model in N and S (pending on Reid)
+
+   3.2	Comparison to Orbcomm Ratio Maps
+      -	Neben et al. (2015): http://onlinelibrary.wiley.com/doi/10.1002/2015RS005678/abstract;jsessionid=69E36DF7FB2063E5E41A017BDC65A0EE.f02t02
+      - ECHO ratio map, compare to orbcomm
+      -  Ratio cuts
+         -  Get Abraham's beams for reference dipoles (Google Drive)
+
+4.	MWA Tile
+   -  Embry-Riddle Aeronautical University MWA tile used as auxiliary test
+      -  Beam plot with zenith pointing
+      -  Fence around tile!
+
+   4.1	Maps
+
+   4.2	Comparison to Orbcomm Maps
+      -  Get Abraham's beams for MWA tile (Google Drive)
+
+5.	Conclusion
+   -	s
+
+
+
+
+
+MAIN POINTS
+- Key calibration for EoR arrays
+- Used for HERA and MWA
+- Project to develop open source version of calibrator (paper + code = beams)
