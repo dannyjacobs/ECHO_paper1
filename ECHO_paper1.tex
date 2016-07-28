@@ -2,11 +2,18 @@
 \shorttitle{Hydrogen Epoch of Reionization Array (HERA)}
 \shortauthors{DeBoer, et al.}
 
-\usepackage{comment}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[figuresright]{rotating}
+\usepackage{natbib}
+\usepackage{ctable}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{url}
+\setlist[itemize]{noitemsep, topsep=0pt}
+\setlist[enumerate]{noitemsep, topsep=0pt}
+\citestyle{aa}
 
-
-
-\journalname{Radio Science}
 
 
 \begin{document}
@@ -16,12 +23,12 @@
 
 
 
-\authors{
-Daniel C. Jacobs\affil{1},
-Jacob Burba\affil{1},
-Judd Bowman\affil{1},
-Lauren Turner\affil{1},
-Kali Johnson\affil{1}
+\author{
+Daniel C. Jacobs\altaffilmark{1},
+Jacob Burba\altaffilmark{1},
+Judd Bowman\altaffilmark{1},
+Lauren Turner\altaffilmark{1},
+Kali Johnson\altaffilmark{1}
 }
 
 
@@ -39,7 +46,7 @@ We describe the External Calibrator for Hydrogen Observatories (ECHO)
 
 A new generation of radio arrays is being developed that use large numbers of low-cost elements, such as phased tiles of dipole antennas. This is made possible by developments in digital technology and enables exploration of new windows on the universe such as the epoch of reionization (EoR) via the redshifted 21 cm line (Morales \& Wyithe 2010; Madau et al. 1997; Loeb \& Zaldarriaga 2004; Loeb \& Barkana 2001; Furlanetto et al. 2006). Precise calibration of the primary beams of these dipole arrays has been found to be crucial to analysis of observations from the the Murchison Widefield Array (MWA; Tingay et al. (2013); Bowman et al. (2013)), the Precision Array for Probing the Epoch of Reionization (PAPER; Pober et al. (2013); Parsons et al. (2010); Jacobs et al. (2011)), and the Low Frequency Array (LOFAR; Yatawatta et al. (2013)). Beam calibration of low frequency dipole arrays poses several complications compared to traditional dish antennas. Most notable is that holographic beam calibration is not possible because the dipole array beams are steered electronically and are unique at every pointing direction. Drift scan calibration of dipole array beams is possible, but requires the test antenna/array to be embedded within an existing array that generates sufficient sensitivity to isolate a large number of radio sources to provide many tracks through the beam. Pober et al. (2012) have employed symmetry arguments to reduce the needed number of sources on the sky and improve the result for PAPER antennas, but this is not possible in general for more complicated dipole array beam patterns. Attempts have been made to use anechoic chambers to calibrate low-frequency phased arrays, but the measurements suffer since even the largest chambers cannot extend into the farfield pattern and the RF absorber material used in the chambers performs poorly below 150 MHz, creating reflections and resonances. Mapping of the dipole beams using the Orbcomm constellation of satellites has proven effective (Neben, Bradley and Hewitt in prep) but is limited to only a single frequency (138 MHz).
 
-%The work proposed here will develop a method for directly measuring, in-situ, the response of dipoles, phased array tiles, and other experimental low-frequency receptors, particularly new elements proposed for the second generation Hydrogen Epoch of Reionization Array (HERA). The proposed method use a remotely controlled unmanned aerial vehicle equipped with a calibrated transmitting antenna and GPS and inertial position loggers to provide a known mulit-frequency reference signal for calibrating low-frequency antennas. Substantial initial development work has been performed already to design and characterize a prototype system. Here, we request modest funds (\$99,187 over two years) to support the implementation of a mature, deployable system based on our prototype efforts. A team of undergraduates, led by one postdoc (0.1 FTE), will assemble and field the prototype in a series of field experiments with the goal of routinely mapping the primary beams of several low frequency arrays, including the HERA prototype antenna installation outside Berkeley, CA.
+
 
 
 
@@ -58,15 +65,14 @@ A new generation of radio arrays is being developed that use large numbers of lo
 
 For the calibration source, ECHO employs a X8 octoquad drone manufactured by 3DRobotics (3DR) with an onboard, programmable Valon 5007 synthesizer and a BicoLOG 30100 biconical antenna (see Fig.~\ref{fig:drone}).  To cover a large portion of the sky of the antenna under test (AUT), a spiral path along the surface of a sphere centered on the AUT with a radius greater than or equal to the AUT's far field distance is used.  The waypoints are generated using a Healpix map, which divides the sky up into pixels with equal area according to a user specified parameter $N_{side}$, a power of 2, and a total pixel count of $N_{pix}=12\times N_{side}^2$.  Ordered by pixel number from zenith to nadir, the altitude and azimuth of each pixel is obtained and converted to a waypoint, i.e. a list of waypoint number, latitude, longitude, and altitude.  These obtained waypoints are then written to a waypoint file in order of position, starting at the horizon and ending at zenith.  The internal GPS of the drone can then read in the generated waypoint file and autonomously follow these waypoints in flight.  A region of interest (ROI) can be declared in the waypoint file prior to the first waypoint to force the drone to always face a specific region and keep a fixed yaw, i.e. a fixed BicoLOG polarization
 
-\begin{comment}
 
-\cite{2005ApJ...622..759G}
+%\cite{2005ApJ...622..759G}
+%
+%To obtain the GPS position of the drone, MAVProxy\footnote{https://github.com/Dronecode/MAVProxy}, a ground control station written in Python implementing the MAVLink communication protocol, is used to facilitate communication between the drone and APM Planner\footnote{http://planner.ardupilot.com/planner2/index.html} on the GS. Through a TCP connection with APM Planner (the server) and the drone (the client), APM Planner records the latitude, longitude, and altitude of the drone with an associated timestamp at which the position was measured every ~300 ms.  These positions, along with many other intermittent parameters and error messages, are continuously written to a telemetry log (tlog) file.  This tlog is read and the realtime positions of the drone are recorded to a text file and made available for the AS via a queryable server setup on the GS.
+%
+%In flight, the Valon synth is set to broadcast at a set frequency and power in the range of 137.5-4400 MHz.  A Signal Hound (SH) BB60A 9 kHz to 6 GHz spectrum analyzer is used to measure the signal received by the AUT which records a radio spectrum in dB with an associated timestamp.  The bandwidth of the recorded spectrum and its associated resolution can be modified based upon user input parameters pertaining to the number of FFT bins, the central frequency, and the bandwidth which cannot exceed 20 MHz.  The radio spectrum data is then read in and each time associated with a spectrum is used to query the server on the GS.  The output of which is an interpolated GPS position in the form of latitude, longitude, and altitude.  If there is no valid GPS data at the query time, then -1 is returned for each of the aforementioned values.  An accumulated file containing each query time and the associated latitude, longitude, altitude, and radio spectrum is then generated and used to produce a FITS file containing the primary beam response of the AUT.
 
-To obtain the GPS position of the drone, MAVProxy\footnote{https://github.com/Dronecode/MAVProxy}, a ground control station written in Python implementing the MAVLink communication protocol, is used to facilitate communication between the drone and APM Planner\footnote{http://planner.ardupilot.com/planner2/index.html} on the GS. Through a TCP connection with APM Planner (the server) and the drone (the client), APM Planner records the latitude, longitude, and altitude of the drone with an associated timestamp at which the position was measured every ~300 ms.  These positions, along with many other intermittent parameters and error messages, are continuously written to a telemetry log (tlog) file.  This tlog is read and the realtime positions of the drone are recorded to a text file and made available for the AS via a queryable server setup on the GS.
 
-In flight, the Valon synth is set to broadcast at a set frequency and power in the range of 137.5-4400 MHz.  A Signal Hound (SH) BB60A 9 kHz to 6 GHz spectrum analyzer is used to measure the signal received by the AUT which records a radio spectrum in dB with an associated timestamp.  The bandwidth of the recorded spectrum and its associated resolution can be modified based upon user input parameters pertaining to the number of FFT bins, the central frequency, and the bandwidth which cannot exceed 20 MHz.  The radio spectrum data is then read in and each time associated with a spectrum is used to query the server on the GS.  The output of which is an interpolated GPS position in the form of latitude, longitude, and altitude.  If there is no valid GPS data at the query time, then -1 is returned for each of the aforementioned values.  An accumulated file containing each query time and the associated latitude, longitude, altitude, and radio spectrum is then generated and used to produce a FITS file containing the primary beam response of the AUT.
-
-\end{comment}
 
 
 \cite{2005ApJ...622..759G}
