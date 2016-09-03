@@ -8,10 +8,10 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from matplotlib.patches import Rectangle
 from scipy.interpolate import interp1d
 
-from read_utils import *
-from position_utils import *
-from plot_utils import *
-from time_utils import *
+from ECHO.read_utils import *
+from ECHO.position_utils import *
+from ECHO.plot_utils import *
+from ECHO.time_utils import *
 
 o = optparse.OptionParser()
 o.set_description('Creates plots for ECHO paper, yo.')

@@ -2,43 +2,61 @@ from matplotlib.pyplot import *
 import sys,glob
 import numpy as np
 from astropy.time import Time
+from ECHO.read_utils import read_apm_logs,flag_angles,apply_flagtimes
+import matplotlib.dates as mdates
 
 infile = sys.argv[1]
-specfile = sys.argv[2]
+outfile = sys.argv[2]
 
-SEC_PER_WEEK = 604800
-
-lats,lons,alts = [],[],[]
-ATT_times,yaws = [],[]
-weektimes = []
-isGPS = True
 apm_files = glob.glob(infile)
-for apm_file in apm_files:
-   print 'Reading in %s...' %apm_file
-   lines = open(apm_file).readlines()
-   if not len(lines) == 0:
-      for line in lines:
-         if line.startswith('GPS'):
-            if isGPS:
-                startTime = float(line.split(',')[-1])
-                isGPS = False
-            lats.append(map(float,line.split(',')[7:8]))
-            lons.append(map(float,line.split(',')[8:9]))
-            alts.append(map(float,line.split(',')[9:10]))
-            weektimes.append(map(float,line.split(',')[3:5])) #ms and week number
-         if line.startswith('ATT'):
-            ATT_times.append(map(float,[line.split(',')[1].strip(' ')]))
-            yaws.append(map(float,[line.split(',')[7].strip(' ')]))
-weektimes = np.array(weektimes)
-apm_times = weektimes[:,1]*SEC_PER_WEEK+weektimes[:,0]/1000.
-apm_times = Time(apm_times,format='gps')
-ATT_times = np.array(ATT_times)
-ATTGPSseconds = ATT_times/1000.+apm_times.gps[0]-startTime/1000.
-ATT_times = Time(ATTGPSseconds, format = 'gps')
-lats = np.array(lats).squeeze()
-lons = np.array(lons).squeeze()
-alts = np.array(alts).squeeze()
-yaws = np.array(yaws).squeeze()
+assert(len(apm_files)>0)
+
+#get data
+postimes,positions,angletimes,angles,cmdtimes,cmds = read_apm_logs(apm_files)
+print 'gps start-end',postimes[0].iso,postimes[-1].iso
+print 'att start-end',angletimes[0].iso,angletimes[-1].iso
+
+
+
+fig = figure(figsize=(15,10))
+title(infile)
+plot_date(angletimes.plot_date,angles[0],',k')
+#flagging the yaws
+yawmask,badyawtimes = flag_angles(angletimes,angles,2)
+print "found {n} bad yaws".format(n=len(badyawtimes))
+yawmask = np.reshape(yawmask,(1,-1))
+angles = np.ma.masked_where(yawmask,angles)
+plot_date(angletimes.plot_date,angles[0],'ok') #plot the flagged yaws
+ylabel('heading [deg]')
+
+#plot the altitude
+twinx()
+plot_date(postimes.plot_date,positions[2],',k')
+#applying the yaw flags to the positions
+posmask = apply_flagtimes(postimes,badyawtimes,1.0)
+#extend the time mask to the data
+posmask = np.reshape(posmask,(1,-1))
+posmask = np.repeat(posmask,3,axis=0)
+positions = np.ma.masked_where(posmask,positions)
+plot_date(postimes.plot_date,positions[2],'.k') #plot the flagged altitudes
+ylabel('alt [m]')
+
+#set some nice time formatting
+hours = mdates.HourLocator()
+gca().xaxis.set_major_locator(hours)
+hourFmt = mdates.DateFormatter('%H:%M')
+gca().xaxis.set_major_formatter(hourFmt)
+minutes = mdates.MinuteLocator(interval=5)
+gca().xaxis.set_minor_locator(minutes)
+minFmt = mdates.DateFormatter('%M')
+gca().xaxis.set_minor_formatter(minFmt)
+fig.autofmt_xdate()
+grid()
+xlabel('time [minutes]')
+savefig(outfile)
+
+
+
 
 '''
 spec_times = []
@@ -73,6 +91,3 @@ ax2 = fig.add_suplot(212)
 ax2.plot(ATT_times.gps,yaws)
 ax2.set_ylabel('deg')
 '''
-
-plot(ATT_times.gps,yaws)
-show()
