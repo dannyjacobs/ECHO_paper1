@@ -28,6 +28,7 @@ Daniel C. Jacobs\altaffilmark{1},
 Jacob Burba\altaffilmark{1},
 Judd Bowman\altaffilmark{1},
 Lauren Turner\altaffilmark{1}
+Ben Stinnet
 }
 
 
@@ -35,7 +36,7 @@ Lauren Turner\altaffilmark{1}
 
 
 \begin{abstract}
-We describe the External Calibrator for Hydrogen Observatories (ECHO)
+We describe the design and methodology of our procedure for mapping the in-situ beam response of wide-field array elements at low frequencies.  
 \end{abstract}
 
 
@@ -97,17 +98,6 @@ The antenna mounting is chosen to maximize the distance from the drone while pre
 
 \subsection{Flight Path}
 One of the main difficulties encountered by \citet{2015PASP..127.1131C} was in matching the flight pattern to the size scale of the variation in the beam.  They chose a cartesian grid pattern with a separation such that the drone passed through the primary lobe roughly three times.  When combined with the on/off switching used to subtract the 1GHz noise of the drone motors, the number density of samples became extremely limited and led to spurious results when interpolating to make a complete beam map.  Here our goal is to smoothly map the beam of a very wide-field element from zenith to the horizon, which would be difficult with a constant altitude flight pattern.  This is also true of the analysis pipelines where the distortion caused by the gnomic projection to a tangent plane makes for a poor gridding scheme at the horizon. In many 21cm pipelines, the HEALPix pixelization scheme \citep{Gorski:2005p7667} is used to store images and beam models.  HEALPix divides the sky into equal area pixels with the pixel count and resolution increasing by powers of two.
-\begin{equation}
-N_{\mathrm{pix}} = 12 * \mathrm{Nside}^2
-\end{equation}
-Pixels can be ordered either by their position in the hierarchical doubling (NEST) or in a spiral order with  longitude $\phi$ fastest (RING).  Here we chose a flight pattern which follows the NEST pattern to give us spherical shell flight pattern centered on the AUT with chosen a radius. Following a conservative safety practice limiting to good line of sight and considering the FAA flight ceiling of 400 ft we set the radius (and thus the maximum altitude) to 100m (328ft). The NSIDE parameter sets the number of waypoints and, effectively, the resolution of the beam sampling.  This number is constrained, ultimately by the amount of time we're willing to spend getting a beam map; at constant speed, a denser grid will take longer to record.  The slowest variable to be sampled is GPS position at 2 Hz. We've chosen to fly at 1m/s where the drone will sample about 3 samples per angular degree and an NSIDE of 8.  At this resolution and speed the full $2\pi$ steradians can be mapped to a resolution of 9 degrees in 60 minutes with four 15 minute sorties.
-
-The polarization of the antenna is kept fixed by inserting a Region of Interest (ROI) command into the beginning of the waypoint program.  The ROI command causes the drone to maintain a fixed heading in the direction of a set location which we choose to be a distant location due East or North as the required.
-
-\subsection{Receiver}
-Below we relate two experiments: mapping of calibration dipoles and a first map of an MWA tile. During the calibration experiment data was collected using the spectrometer setup of the Orbcomm satellite mapping array as described in section 2.4 of \citet{2016:NebenHERAdish}. The software was modified to allow real time inspection of the data, but otherwise the system was operated just as it was for satellite mapping with spectra recorded simultaneously from two dual polarization dipoles at a time cadence of 4 Hz and a spectral resolution of 2kHz. Data from the MWA tile was collected with a SignalHound software defined radio run in spectrometer mode with a spectral resolution of 5kHz and a time cadence of 2.22Hz. 
-\subsection{Data processing}
-We generate a beam map by interpolating the power trace at times when recorded GPS positions are available.  Careful observation of the autopilot behavior and inspection of logs suggests that the X8/Arducopter combination suffers from occasional stability `hiccups'. Finding that these are characterized primarily by outliers in the yaw we have flagged points greater than 2 $\sigma$ above the mean yaw.  Another slight yaw outlier is observed to occur as the drone passes through each waypoint gate which is often accompanied by a visible bump in the received power trace; points within half a second of each waypoint have been flagged (see Figure \ref{fig:waypoint_flagging}).
 
 \begin{figure}[htb]
 \includegraphics[width=\columnwidth]{figures/GB_waypoint_flagging_zoom.png}
@@ -115,27 +105,31 @@ We generate a beam map by interpolating the power trace at times when recorded G
 \label{fig:waypoint_flagging}
 \end{figure}
 
-
-These flagged data are then gridded, using a nearest pixel approach, into a healpix grid using an NSIDE of 8, the same as the flight pattern.  The gridder records the mean, the standard deviation and the total sample count of all the samples falling into each pixel. An example gridded beam is shown in Figure \ref{fig:beam_std_count}.
-
-The measured power pattern is a product of the power patterns of the transmitter and receiver. To estimate the power pattern of the receiver we use CST Microwave Studio to model the transmitting bicolog antenna beneath the drone modeled as a set of metal arms (see Figure \ref{fig:tx_cst}).  
-
-
-\begin{figure}
-\caption{A view of the CST model of the transmitting antenna suspended beneath the metal arms of the drone.}\label{fig:tx_cst}
-\end{figure}
-
-
-\begin{figure*}[htb]
+\begin{figure*}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{figures/GB_power_rms_count.png}
 \caption{Received power pattern, error, and sample count for a calibration dipole.}
 \label{fig:beam_std_count}
 \end{center}
 \end{figure*}
+Pixels can be ordered either by their position in the hierarchical doubling (NEST) or in a spiral order with  longitude $\phi$ fastest (RING).  Here we chose a flight pattern which follows the NEST pattern to give us spherical shell flight pattern centered on the AUT with chosen a radius. Following a conservative safety practice limiting to good line of sight and considering the FAA flight ceiling of 400 ft we set the radius (and thus the maximum altitude) to 100m (328ft). The NSIDE parameter sets the number of waypoints and, effectively, the resolution of the beam sampling.  This number is constrained, ultimately by the amount of time we're willing to spend getting a beam map; at constant speed, a denser grid will take longer to record.  The slowest variable to be sampled is GPS position at 2 Hz. We've chosen to fly at 1m/s where the drone will sample about 3 samples per angular degree and an NSIDE of 8.  At this resolution and speed the full $2\pi$ steradians can be mapped to a resolution of 9 degrees in 60 minutes with four 15 minute sorties.
 
-\section{Calibration}
-As a first test of stability and accuracy we used ECHO to map antennas which had already been mapped using the Orbcomm satellite constellation .  The Orbcomm system measures the power received by multiple satellites, operating in narrow band channels at 137 MHz and uses the telemetry in those signals to associate the received channel powers with the orbital positions of the satellites.   The time variation of the digital signal is removed by simultaneously measuring the power received by the antenna under test (AUT) and a nearby sleeved dipole. The ratio between these two is insensitive to satellite transmitter variations; the dipole acts as a precision calibration element. The AUT beam is referenced to this standard dipole which is can be calibrated out using a model.  The accuracy and repeatability of the dipole established with a ``null'' test where the AUT is replaced with a second identical calibration dipole.  It was in this configuration that we performed the calibration test described here.
+The polarization of the antenna is kept fixed by inserting a Region of Interest (ROI) command into the beginning of the waypoint program.  The ROI command causes the drone to maintain a fixed heading in the direction of a set location which we choose to be a distant location due East or North as the required.
+
+
+\subsection{Receiver}
+Below we relate two experiments: mapping of calibration dipoles and a first map of an MWA tile. During the calibration experiment data was collected using the spectrometer setup of the Orbcomm satellite mapping array as described in section 2.4 of \citet{2016:NebenHERAdish}. The software was modified to allow real time inspection of the data, but otherwise the system was operated just as it was for satellite mapping with spectra recorded simultaneously from two dual polarization dipoles at a time cadence of 4 Hz and a spectral resolution of 2kHz. Data from the MWA tile was collected with a SignalHound software defined radio run in spectrometer mode with a spectral resolution of 5kHz and a time cadence of 2.22Hz. 
+\subsection{Data processing}
+\label{sec:processing}
+We generate a beam map by interpolating the power trace at times when recorded GPS positions are available.  Careful observation of the autopilot behavior and inspection of logs suggests that the X8/Arducopter combination suffers from occasional stability `hiccups'. Finding that these are characterized primarily by outliers in the yaw we have flagged points greater than 2 $\sigma$ above the mean yaw.  Another slight yaw outlier is observed to occur as the drone passes through each waypoint gate which is often accompanied by a visible bump in the received power trace; points within half a second of each waypoint have been flagged (see Figure \ref{fig:waypoint_flagging}).
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{figures/ECHO_CST.png}
+\caption{A view of the CST model of the transmitting antenna suspended beneath the metal arms of the drone.}\label{fig:tx_cst}
+\end{figure}
+
+
+
 
 \begin{figure}
 \begin{center}
@@ -146,50 +140,79 @@ As a first test of stability and accuracy we used ECHO to map antennas which had
 \end{figure}
 
 
+These flagged data are then gridded, using a nearest pixel approach, into a healpix grid using an NSIDE of 8, the same as the flight pattern.  The gridder records the mean, the standard deviation and the total sample count of all the samples falling into each pixel. An example gridded beam is shown in Figure \ref{fig:beam_std_count}.
+
+The measured power pattern is a product of the power patterns of the transmitter and receiver, in decibels:
+\begin{equation}
+\textrm{measured power pattern} = \textrm{tx power} + \textrm{tx beam} + \textrm{rx beam}
+\end{equation}
+
+  To estimate the power pattern of the receiver we use CST Microwave Studio to model the transmitting bicolog antenna beneath the drone modeled as a set of metal arms (see Figure \ref{fig:tx_cst}).  
+
+
+
+
+\section{Data}
+As a first test of stability and accuracy we used ECHO to map antennas which had already been mapped using the Orbcomm satellite constellation .  The Orbcomm system measures the power received by multiple satellites, operating in narrow band channels at 137 MHz and uses the telemetry in those signals to associate the received channel powers with the orbital positions of the satellites.   The time variation of the digital signal is removed by simultaneously measuring the power received by the antenna under test (AUT) and a nearby sleeved dipole. The ratio between these two is insensitive to satellite transmitter variations; the dipole acts as a precision calibration element. The AUT beam is referenced to this standard dipole which is can be calibrated out using a model.  The accuracy and repeatability of the dipole established with a ``null'' test where the AUT is replaced with a second identical calibration dipole.  It was in this configuration that we performed the calibration test described here.
+
+
 Data were collected in a series of four mapping runs in August, 2015 at the Green Bank Observatory operated by the National Radio Astronomy Observatory.  The amplifier and receiver setup was left unchanged from normal Orbcomm operations with the exception that the data recording script was modified to increase the spectral dump rate. The ECHO transmitter was tuned to 137.5\,MHz and attenuation was added until, at an output power of -22dBm, saturation into adjacent channels was no longer visible.  This resulted in a signal of amplitude similar to the received Orbcomm signals. Historical recordings were examined and this channel was seen to be rarely used by Orbcomm making an overlap unlikely.  The output was monitored throughout operations for obvious signs of an overlapping Orbcomm transmission.
 
-The null experiment, shown in an aerial view in Figure \ref{fig:GB_aerial}, was set up with the antennas separated by 50m along a north-south line with a HERA dish at the north end.  Each station was mapped twice, once with the transmitter fixed in the east-west (EW) direction and once north-south (NS).
-
-%The first full scale test of the ECHO system was done in August, 2015 at the National Radio Astronomy Observatory (NRAO) site in Green Bank, WV.  Two dual-polarization dipoles (see Fig.~\ref{fig:dual dipole}) used in the development of a calibration technique utilizing the ORBCOMM satellite constellation (Neben et al. 2015) were used as the AUTs.  With a dipole length of 90.4 cm and a Valon synth frequency of 137.5 MHz, a flight radius of 100m was chosen, well into the far-field of the dipoles.  Choosing a flight speed of 0.2 dam s$^{-1}$ and $N_{side}=8$, each flight ECHO performed took ~60 min.  Four total flights were performed as each antenna contained two dipoles and thus needed to be tested with two flights, one with a polarization of the BicoLOG matching the polarization of one of the dipoles.  This also allowed cross-polarization measurements of each antenna to be made.
-
-
-\subsection{Maps}
+The null experiment, shown in an aerial view in Figure \ref{fig:GB_aerial}, was set up with the antennas separated by 50m along a north-south line with a HERA dish at the north end.  Each station was mapped twice, once with the transmitter fixed in the east-west (EW) direction and once north-south (NS).  The resulting data were flagged and gridded as described in section \ref{sec:processing}, the resulting maps are shown in figure \ref{fig:GB_beams}. 
 
 
 
 
-\begin{figure}[htb]
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/GB_slices_quad.png}
-\caption{Slices of dipole maps after subtracting transmitter beam pattern. Two identical full linear polarization feeds were mapped.  Here we divide them up by polarization (NS vs EW) and by slice plane. The E plane is parallel to the dipole  and the H plane cuts E perpindicularly 90 degrees.  Antenna 'A' is square symbols, antenna 'B' is diamonds. }
-\end{center}
-\end{figure}
+\subsection{Comparison with Orbcomm}
 
-\subsection{Comparison to Orbcomm Ratio Maps}
+In the Orbcomm experiment, because both stations are measured simultaneously,  the most reliable metric is the ratio of the beams. However in our case, since data are collected sequentially, one map after another, the ratio can expose experimental systematic errors as well as those due to noise or short term variability.
 
-\begin{figure}[htb]
-\includegraphics[width=\columnwidth]{figures/GB_ratio_slice_5dB.png}
-\caption{Ratio of the two calibration dipoles.  }
+Assuming the transmitter beam is unchanging between mapping runs, the ratios of the two matching NS and EW elements can be directly compared to data collected nearly simultaneously during an Orbcomm null test.   Doing so we find that the EW dipoles have ratios similar to the Orbcomm measurement, but the NS ratio displays a systematic slope in the NS direction, see figure \ref{fig:GB_NS_ratio_uncalibrated}
+\begin{figure}
+\includegraphics[width=\columnwidth]{figures/GB_NS_ratio_uncalibrated.png}
+\caption{The ratio of the two North/South polarization dipoles is expected to be largely unity and to reveal measurement errors. Here we see the presence of a strong north/south gradient which has been identified with a 10\arcdeg{} title of the transmitting antenna during the north map run. See Fig \ref{fig:GB_ratio_maps} where this has been corrected. }\label{fig:GB_NS_ratio_uncalibrated}
 \end{figure}
 
 
-\section{MWA Tile}
+\begin{figure*}
+\begin{minipage}{0.45\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/GB_OC_ratio_compare.png}
+\caption{Power pattern ratios between null experiment dipoles compared against similar measurements made with the Orbcomm satellite system (top).  Both methods agree that the EW dipoles are more alike than the NS, though disagree on nature and extent of the difference.}\label{fig:GB_ratio_maps}
+\end{minipage}
+\centering
+\begin{minipage}{0.45\textwidth}
+\centering
+\includegraphics[width=\columnwidth]{figures/GB_ratio_slice_5dB.pdf}
+\caption{Ratios between calibration dipoles measured by Orbcomm and ECHO methods.  The ECHO NS map for antenna A has been corrected for a 10\arcdeg transmitter antenna tilt by rotating the transmitter model. The little circular glyph indicates polarization and slice geometry: the receiving polarization is a thick line, the transmitter polarization is a thin arrow and the slice through the map is a blue dotted line. Note that through the mapping process the transmitter polarization is held fixed. }\label{fig:GB_ratio_slices}
+\includegraphics[width=\columnwidth]{figures/GB_slices_quad.pdf}
+\caption{Slices of dipole maps after subtracting transmitter beam pattern. Two identical full linear polarization feeds were mapped.  Here we divide them up by polarization (NS vs EW) and by slice plane. The E plane is parallel to the dipole  and the H plane cuts E perpendicularly by 90 degrees.  Antenna 'A' is square symbols, antenna 'B' is diamonds. The two data sets plotted in each panel are the same ones plotted as differences in Figure \ref{fig:GB_ratio_slices}. }\label{fig:GB_slices_quad}
+\end{minipage}\hfill
+\end{figure*}
 
-\subsection{Data}
-\begin{figure}[htb]
-\includegraphics[width=\columnwidth]{figures/MWATile_slice.png}
-\caption{MWA tile map compared with approximate model. Note that tile is surrounded by an 8 foot chain link fence which is not included in the model.}
-\end{figure}
-\subsection{Systematic Variation}
 
-\subsection{Comparison to Orbcomm Maps}
+
+Such a slope, aligned with the polarization of the transmitter, can be produced by a modest tilt in the transmitting or receiving antenna. Such a tilt is the most common failure mode of the monofilament transmitter suspension method. If unchanged during the mapping run the tilt can be accounted for by correcting the rotated transmitter beam.  Inspection of photos taken during the field trials revealed several instances of small antenna mounting tilts, most likely in the last mapping run of the experiment, on the NS arm of station A. Here we have, through trial and error, found that a rotation of the transmitter beam by $\Delta \theta = 10$\arcdeg{} provided the best reduction in the slope while staying within the bounds of likely misalignments observed in the field and in the photos. We then went back and re-simulated the transmitter beam in CST with the antenna rotated 10\arcdeg{} with respect to the drone. This rotated transmitter beam model was subtracted from A-NS while an unrotated simulation is subtracted from the other three.
+
+The ratio between the two stations, after subtracting transmitter beams, are plotted in figures\ref{fig:GB_ratio_maps} and \ref{fig:GB_ratio_slices}. Comparing Figure \ref{fig:GB_NS_ratio_uncalibrated} to the beam-tilt corrected version in figure \ref{fig:GB_ratio_maps} we can see that 10dB slope across the beam has been reduced to a much smaller difference of around 1/2dB, which is closer to the scale of the error bars plotted in that same figure. Whether this difference is due to residual antenna orientation miscalibration or is capturing true differences between the identical antennas is difficult to say, however taken at face value, both the Orbcomm and ECHO data agree that the A and B NS polarizations are not as similar to each other as the EW polarizations. Slices of the ratio maps in Figure \ref{fig:GB_ratio_slices} tell a similar story.  The E plane cuts\footnote{here we set the E plane as parallel to the receiving dipole and the H plane perpendicular.  This is indicated in figures with a little circular glyph showing the receiving polarization as a thick line, the transmitter polarization as a thin arrow and the slice as a blue dotted line.} through the nulls of both the receiver and the transmitter tend to reveal the most uncertain portion of the beam. Here the sensitivity is lowest and both beams are a steep function of view angle;  small variations in the orientation of the transmitter cause large variations in power received within a single healpix pixel.  As we can see typical measurement error ranges from 1 to 3 dB in the worst case.
+
+\subsection{Comparison to Model}
+
+Here we compare the four reconstructed beam patterns with the electromagnetic simulation.  If comparison of the ratios against Orbcomm is the stronger test for systematic error, direct comparison of each measurement against the electromagnetic model is perhaps more diagnostic because we can examine each of the four measurements independently. In Figure \ref{fig:GB_slices_quad} we plot orthogonal E and H plane slices. With the models split by receiver polarization we can see that, the measured NS patterns A and B now agree with each other to within a dB or so, they do not agree with the model. On the other hand, the EW maps both seem to agree to within error bars in most places.
 
 
 
 
 
 \section{Conclusion}
+\begin{itemize}
+\item resolution and sample variance is mainly limited by flight time
+\item variance due to angular instability is more important than position variation
+\item better antenna mount stability and drone yaw control is needed
+\item more investigation is needed to understand high variance in low elevation measurements
+\item repeatable measurements with errors $<1$dB is achievable with careful procedure and stable transmitter
 
+\end{itemize}
 
 \acknowledgments
 ECHO development is supported by a grant from the National Science Foundation AST program, award number 1407646. D.C.J would like to acknowledge NSF support  under award 1401708.
