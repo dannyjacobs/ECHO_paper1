@@ -9,8 +9,8 @@ from ECHO.plot_utils import project_healpix,rotate_hpm
 
 o = optparse.OptionParser()
 o.set_description('ECHO_tx_beam_cal.py ECHOMap.fits receiver_ant_beam_model.fits ')
-o.add_option('--theta',type=float,help='theta rotation (applied after phi, deg)')
-o.add_option('--phi',type=float,help='phi rotation (deg)')
+o.add_option('--theta',default=0,type=float,help='theta rotation (applied after phi, deg)')
+o.add_option('--phi',default=0,type=float,help='phi rotation (deg)')
 opts,args = o.parse_args(sys.argv[1:])
 
 
@@ -36,8 +36,9 @@ else:
     pol = 'EW'
 print("assuming beams stored in dB, and assuming maps stored in RING")
 
-print("applying rotation to TX model theta={theta}, phi={phi}".format(theta=opts.theta,phi=opts.phi))
-TXmodel = rotate_hpm(TXmodel,opts.phi,opts.theta,pol=pol)
+if (opts.theta != 0) or (opts.phi != 0):
+    print("applying rotation to TX model theta={theta}, phi={phi}".format(theta=opts.theta,phi=opts.phi))
+    TXmodel = rotate_hpm(TXmodel,opts.phi,opts.theta,pol=pol)
 
 #power received = power transmitted
 #                +receiver beam gain (which is negative)
@@ -45,8 +46,7 @@ TXmodel = rotate_hpm(TXmodel,opts.phi,opts.theta,pol=pol)
 #assume receiver beam gain = transmitter beam gain = 0 at zenith
 if True:
     print("normalizng the data map to the mean of the top few healpix pixels ")
-    print ECHOmap[:5]==hp.UNSEEN,ECHOmap[:5]
-    print "subtracting",np.ma.average(ECHOmap[:5])
+    print "\t subtracting",np.ma.mean(ECHOmap[:5])
     echonorm = np.mean(ECHOmap[:5])
     ECHOmap -= echonorm
 TXmodel -= np.mean(TXmodel[:5])
