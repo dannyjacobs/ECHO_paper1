@@ -14,7 +14,7 @@
 \setlist[enumerate]{noitemsep, topsep=0pt}
 \citestyle{aa}
 
-
+%\AuthorCallLimit=2
 
 \begin{document}
 
@@ -25,18 +25,20 @@
 
 \author{
 Daniel C. Jacobs\altaffilmark{1},
-Jacob Burba\altaffilmark{1},
+Jacob Burba\altaffilmark{2},
 Judd Bowman\altaffilmark{1},
-Lauren Turner\altaffilmark{1}
-Ben Stinnet
+Lauren Turner\altaffilmark{1},
+Benjamin Stinnett
 }
 
-
-\affiliation{1}{School of Earth and Space Exploration, Arizona State U., Tempe, AZ, 85287}
+\altaffiltext{1}{School of Earth and Space Exploration, Arizona State U., Tempe, AZ, 85287}
+\altaffiltext{2}{Brown University, Providence, RI}
 
 
 \begin{abstract}
-We describe the design and methodology of our procedure for mapping the in-situ beam response of wide-field array elements at low frequencies.  
+Spurred on by multiple scientific cases including constraining dark energy, observing reionization and opening a window on the dark ages, the astrophysical community has pursued the detection and characterization of the 21cm hydrogen line across the redshift spectrum, from nearby to z=12 and above with the development of new instruments in the sub meter (eg CHIME) and meter bands (eg HERA).  These are wide-field arrays with multiple degree wide beams operating in transit mode.  Accurate knowledge of the primary beam has been found to be critical in the accurate separation of bright foregrounds and multiple methods including the use of autonomous drones have been investigated.  However, previous work focuses on model verification and does not address the need of 21cm experiments for routine mapping, to the horizon, of the as-built array.
+
+Here we describe the design and methodology of a drone mounted calibrator, the External Calibrator for Hydrogen Observatories (ECHO) which targets the needs of 21cm experiments as identified through simulation and analysis of data. We report on a first set of trials matching the ECHO measurements against other calibration methods.  These experiments suggest that the desired precision and angular coverage is achievable in practice, however there are sources of error. We identify the main sources of error and describe steps needed to correct it.
 \end{abstract}
 
 
@@ -46,35 +48,57 @@ We describe the design and methodology of our procedure for mapping the in-situ 
 
 A new generation of radio arrays is being developed that use large numbers of low-cost elements, such as phased tiles of dipole antennas. This is made possible by developments in digital technology and enables exploration of new windows on the universe such as the epoch of reionization (EoR) via the redshifted 21 cm line \citep{Morales:2010p8093,Furlanetto:2006p2267,Madau:1997p2232}. Precise calibration of the primary beams of these dipole arrays has been found to be crucial to analysis of observations by widefield radio arrays such as the MWA \citep{Tingay:2013p9022,Bowman:2013p9950}, PAPER \citep{Pober:2012p8800,2015ApJ...809...61A,2013ApJ...776..108J}, LOFAR \cite{Yatawatta:2013p9699}, HERA \citep{2016:deBoerHERAarxiv} and SKA-low \citep{Mellema:2013p10035,Mort:2016SKAlowimagingarxiv}.
 
-The chief challenge in observing highly redshifted 21\,cm is discriminating the mK level spectral line signal against the $\sim$100K foregrounds.  Instrumental simulations have found that bright sources far from the pointing center, though attenuated significantly by the beam, introduce foreground signals which are highly chromatic and difficult to discriminate from the cosmological 21cm spectral line signature \citep{Thyagarajan:2013p10039,2015ApJ...804...14T,Mort:2016SKAlowimagingarxiv}. These effects have been confirmed in both MWA and PAPER observations \citep{2015:ThyagarajanConfirmationwidefield,Pober:2016ApJ...819....8P}. Precision removal of foreground sources far into the sidelobes is one of the chief challenges of the primary analysis pipelines  \citep{2016:JacobsPipelinepaper} however the amount which can be removed is limited by the accuracy of our knowledge of the antenna response.  More detailed electromagnetic models have been shown to improve the overall accuracy of flux reconstruction \citep{Sutinjo:2015RaSc...50...52S}. however a single digital model cannot account for as-built variation which has been shown to be significant and largely unavoidable without large added expense \citep{2016:NebenBeamformingerrors}.  The largest success of improved modeling accuracy has been in improving polarization response. Polarization signals have inherent spectral variation due to faraday rotation imprinted by magnetized ionized plasmas in the interstellar medium as well as the ionosphere. Leakage of these spectral signatures into the unpolarized reionization signal can be minimized with a combination of beam modeling and careful element design \citep{Jelic:2010p8293,Moore:2013p9941,Asad:2015LofarPol}. Another feature of cosmological distance 21cm observations is the wide spectral bandwidth, at least 100 to 200 MHz to span a useful redshift range. Successful foreground isolation across this range necessitates knowledge of the beam response across this entire range.  Spectral variation of the beam has been found to cause otherwise smooth foregrounds to contribute an additional foreground component\citep{2016:ThyagarajanBeamChromaticity,2016:EwallWiceHERAdisharXiv}. An inaccurate beam model also limits the accuracy of calibration. The usual solution is to only use calibration sources in the well known parts of the beam, however incomplete foreground models have been shown to lead to spectral line foregrounds \citep{2016:BarryCalibrationRequirements}.  Calibration error is not just limited to sky modeling. Arrays such as PAPER and HERA are taking advantage of baseline redundancy to calibrate without sky models \citep{Liu:2010p10391,Zheng:2014p10467,2015ApJ...809...61A}, however this technique is subject to error due to deviations from redundancy caused by beam variation from antenna to antenna. Though more work is necessary to understand the impact of beam non-redundancy, its clear that more needs to be known about the actual as-built variation.  Accurate knowledge of the beam can dramatically improve the quality of analysis steps but is also key information during the design process as a validation of modeling and to explore design choices \citep{2014IAWPL..13..169V,2016:NebenHERAdish}.
-
-Taken together, we can summarize the reionization needs for beam measurements as:
-\begin{itemize}
-\item precision at the horizon as good as the phase center
-\item sampling across the desired bandwidth
-\item full polarization sampling
-\item maps of the in-situ / as-built antennas
-\end{itemize} 
-
-
-\begin{figure*}[htb]
+The chief challenge in observing highly redshifted 21\,cm is discriminating the mK level spectral line signal against the $\sim$100K foregrounds.  Instrumental simulations have found that bright sources far from the pointing center, though attenuated significantly by the beam, introduce foreground signals which are highly chromatic and difficult to discriminate from the cosmological 21cm spectral line signature \citep{Thyagarajan:2013p10039,2015ApJ...804...14T,Mort:2016SKAlowimagingarxiv}. These effects have been confirmed in both MWA and PAPER observations \citep{2015:ThyagarajanConfirmationwidefield,Pober:2016ApJ...819....8P}. Precision removal of foreground sources far into the sidelobes is one of the chief challenges of the primary analysis pipelines  \citep{2016:JacobsPipelinepaper} however the amount which can be removed is limited by the accuracy of our knowledge of the antenna response.  More detailed electromagnetic models have been shown to improve the overall accuracy of flux reconstruction \citep{Sutinjo:2015RaSc...50...52S}. however a single digital model cannot account for as-built variation which has been shown to be significant and largely unavoidable without large added expense \citep{2016:NebenBeamformingerrors}.  The largest success of improved modeling accuracy has been in improving polarization response. Polarization signals have inherent spectral variation due to faraday rotation imprinted by magnetized ionized plasmas in the interstellar medium as well as the ionosphere. Leakage of these spectral signatures into the unpolarized reionization signal can be minimized with a combination of beam modeling and careful element design \citep{Jelic:2010p8293,Moore:2013p9941,Asad:2015LofarPol}.
+\begin{figure*}[hbt]
 \centering
 \includegraphics[width=0.59\textwidth]{figures/drone2.png}
 \includegraphics[width=0.4\textwidth]{figures/drone.png}
-\caption{3DR X8 octoquad drone prior to launch (left) and in flight (right).  The transmitter is contained in the black project box mounted on top of the drone.  A copper plate, which acts as shielding from the electronics below, with the attached GPS magnetometer can be seen atop the project box. Beneath the drone, the blue  BicoLOG antenna is slung with non-conductive monofilament.}
+\caption{3DR X8 octoquad drone prior to launch (left) and in flight (right).  The transmitter is contained in the black project box mounted on top of the drone.  A copper plate, which acts as shielding from the electronics below, with the attached GPS/magnetometer attached atop the project box. Beneath the drone, the blue  BicoLOG antenna is slung with non-conductive monofilament. For scale note that props are 30cm tip to tip and the antenna cone is 10cm at its widest point.}
 \label{fig:drone}
 \end{figure*}
+Another feature of 21cm observations is the wide spectral bandwidth, at least 100 to 200 MHz to span a useful redshift range. Successful foreground isolation across this range necessitates knowledge of the beam response across this entire range.  Spectral variation of the beam has been found to cause otherwise smooth foregrounds to contribute an additional foreground component\citep{2016:ThyagarajanBeamChromaticity,2016:EwallWiceHERAdisharXiv}. An inaccurate beam model also limits the accuracy of calibration. The usual solution is to only use calibration sources in the well known parts of the beam, however incomplete foreground models have been shown to lead to spectral line foregrounds \citep{2016:BarryCalibrationRequirements}.  Calibration error is not just limited to sky modeling. Arrays such as PAPER and HERA are taking advantage of baseline redundancy to calibrate without sky models \citep{Liu:2010p10391,Zheng:2014p10467,2015ApJ...809...61A}, however this technique is subject to error due to deviations from redundancy caused by beam variation from antenna to antenna. Though more work is necessary to understand the impact of beam non-redundancy, its clear that more needs to be known about the actual as-built variation.  Accurate knowledge of the beam can dramatically improve the quality of analysis steps but is also key information during the design process as a validation of modeling and to explore design choices \citep{2014IAWPL..13..169V,2016:NebenHERAdish}. 
 
-Beam calibration of low frequency dipole arrays poses several complications compared to traditional dish antennas. Most notable is that traditional beam calibration, where the beam is scanned across a bright isolated source, is not possible because arrays are fixed to the earth. Phased array beams are technically steerable but violate the assumption that the beam is constant as it scans. Drift scan calibration of dipole array beams is possible --imaging point sources as they track across the beam--- but it requires the test antenna/array to be embedded within an existing array that generates sufficient sensitivity to isolate a large number of radio sources to provide many tracks through the beam. \citet{Pober:2013p9942} have employed symmetry arguments to reduce the needed number of sources on the sky and improve the result for PAPER antennas, but this is not possible in general for more complicated dipole array beam patterns and is ultimately limited by the symmetry argument and in the sensitivity far out in the beam.  Attempts have been made to use anechoic chambers to calibrate low-frequency phased arrays, but the measurements suffer since even the largest chambers cannot extend into the farfield pattern and the RF absorber material used in the chambers performs poorly below 150 MHz, creating reflections and resonances and in any case does not capture the as-built variation. Mapping beam response using the Orbcomm constellation of satellites has proven the most effective \citep{2015RaSc...50..614N,2016:NebenHERAdish} but is limited to only a single frequency (138 MHz).  
+While instrument modeling and pipeline development results all agree that accurate beam characterization is critical, there is little certainty as to a specific requirement on that accuracy.  \citet{Shaw2015_chimemmodes} have placed a requirement of 0.1\% accuracy on the width of the beam for the CHIME experiment. This is roughly in agreement with the suggestion within the HERA collaboration that 1dB standard deviation at the -40dB beam level is a good goal.
 
-Drone-based radio calibration has recently been explored for application to widefield 21cm instruments.  A drone-mounted calibration source was used to verify the accuracy of antenna response modeling for SKA-low stations \cite{2014IAWPL..13..169V} and then a second generation setup was then used as a phase calibrator \citep{2015ExA....39..405P}.  Fully mapping the beam of an antenna has been demonstrated by \citet{2015PASP..127.1131C}.  In that experiment, a 5m dish was mapped at 1GHz with a noise source broadcast by a gimbal mounted horn. This experiment provided a first demonstration of the drone beam-mapping concept and identified places for improvement of the methods. 
+Taken together, we can summarize the reionization needs for beam measurements as:
+\begin{itemize}
+\item maps of the in-situ / as-built antennas
+\item precision at the horizon as good as the phase center (1dB at -40dB)
+\item sampling across the desired bandwidth
+\item full polarization sampling
+\end{itemize} 
 
+
+
+
+Beam calibration of low frequency dipole arrays poses several complications compared to traditional dish antennas. Most notable is that traditional beam calibration, where the beam is scanned across a bright isolated source, is not possible because arrays are fixed to the earth. Phased array beams are technically steerable but violate the assumption that the beam is constant as it scans. Drift scan calibration of dipole array beams is possible --tracking point sources as they track across the beam--- but it requires the test antenna/array to be embedded within an existing array that generates sufficient sensitivity to isolate a large number of radio sources to provide many tracks through the beam or availability of a large steerable dish with which to cross-correlate\citet{Berger:CHIME_beam_map2016-arxiv}. Even if source tracks can be measured at high sensitivity there is still the issue that sky sources only measure parallel cuts along one direction and cannot as easily constrain the beam along the declination direction. \citet{Pober:2013p9942} have employed symmetry arguments to tie the different right ascension tracks together, but this is not possible in general for more complicated dipole array beam patterns and is ultimately limited by the symmetry argument and in the sensitivity far out in the beam.   Attempts have been made to use anechoic chambers to calibrate low-frequency phased arrays, but the measurements suffer since even the largest chambers cannot extend into the farfield pattern and the RF absorber material used in the chambers performs poorly below 150 MHz, creating reflections and resonances and in any case does not capture the as-built variation. Mapping beam response using the Orbcomm constellation of satellites has proven the most effective \citep{2015RaSc...50..614N,2016:NebenHERAdish} but is limited to only a single frequency (138 MHz).  
+
+Drone-based radio calibration has recently been explored for application to widefield 21cm instruments.  A drone-mounted calibration source was used to verify the accuracy of antenna response modeling for SKA-low stations \cite{2014IAWPL..13..169V} and then a second generation setup was then used as a phase calibrator \citep{2015ExA....39..405P}.  Fully mapping the beam of an antenna has been demonstrated by \citet{2015PASP..127.1131C}.  In that experiment, a 5m dish was mapped at 1GHz with a noise source broadcast by a gimbal mounted horn. This experiment provided a first demonstration of the drone beam-mapping concept and identified places for improvement of the methods.   
+
+Airborne calibrators are particularly well suited to instruments with a short far-field distance. An approximate definition of the far field is the square of the aperture size $D$ over the wavelength $\lambda$; Table \ref{tab:table} gives a list for a few representative 21cm arrays. The far field for HERA is 100m, which is a reasonable operating hight for a small drone. 
+
+\begin{deluxetable}{cccc}
+\tablecaption{Far field distances for m and subm telescopes \label{tab:table}}
+\tablehead{
+\colhead{Element} & \colhead{Aperture Diameter} & \colhead{Wavelength} & \colhead{Far field} \\
+\colhead{} & \colhead{m} & \colhead{m} & \colhead{m}\\
+}
+\startdata
+PAPER & 2 & 2 & 2\\
+MWA  & 8 & 2 & 4\\
+HERA & 14 & 2 & 98 \\
+LOFAR & 15 & 2 & 112\\
+CHIME & 15 & 0.1 &  2,250 \\  %TODO check aperture sizes
+HYRAX & 12 & 0.1 & 1,440 \\
+VLA & 25 & 0.2 & 2,970\\
+\enddata
+\end{deluxetable}
 
 
 Future improvement areas included: optimizing the flight path to better sample the beam, obtaining better drone positioning accuracy, improving characterization of the transmitter beam, and better modeling of the antenna under test. This last point was partially motivated by a lack of alternate beam mapping data with which to compare the results. Additional changes must be made in the shift from low redshift intensity mapping applications at 1GHz to reionization and cosmic dawn 200MHz.  At these lower frequencies horns and other highly directive elements become prohibitively large and heavy for flight applications, motivating the use of a fixed dipole, such as was used by \citet{2014IAWPL..13..169V}, while the broader effective bandwidths and heavier power amplifiers make coverage of the entire band add additional weight. The use of a fixed dipole puts further emphasis on the need to better understand the transmitter beam pattern with modeling and alternate measurements. 
 
 
-Here in this paper we report our progress towards overcoming some of these challenges and describe the development of a system targeting the low frequency 21cm band and the requirements identified above.  In section \ref{sec:design} describe our own drone and transmitter design, improved flight procedure and analysis method.  In section \ref{sec:cal} we detail the results of mapping the reference dipoles used in the Orbcomm mapping setup which lets us compare with both detailed models and measured beam response maps.  Section \ref{sec:mwa} relates an initial trial measurement of an MWA tile. Section \ref{sec:conc} summarizes the results so far and outlines the next steps.
+Here in this paper we report our progress towards overcoming some of these challenges and describe the development of a system targeting the low frequency 21cm band and the requirements identified above.  In section \ref{sec:design} we describe our own drone and transmitter design, improved flight procedure and analysis method.  In section \ref{sec:orbcomm} we detail the results of mapping the reference dipoles used in the Orbcomm mapping setup which lets us compare with both detailed models and measured beam response maps.  Section \ref{sec:conclusion} summarizes the results so far and outlines the next steps.
 
 
 \begin{figure*}[htb]
@@ -94,7 +118,7 @@ The drone is an X8 octoquad from 3DRobotics (3DR) with a Pixhawk autopilot runni
 
 
 \subsection{Antenna Mount}
-The antenna mounting is chosen to maximize the distance from the drone while preserving stability. The X8 drone legs are too short to permit a fixed mounting further than two or three centimeters below the drone and the wingspan is too narrow for safe landing on longer legs. In the tests here the antenna has been suspended from the drone legs by non-conductive monofilament with a plastic bracket providing the filament/antenna mount point. On the ground, the antenna fits between the legs, in the air the antenna hangs 30\,cm below, this is shown in Figure \ref{fig:drone}. The advantages of this system are that it is simple, extremely light-weight and provides isolation between done and antenna. The disadvantages are that it lacks rigidity, stability, and because it must be re-tied after transport it is difficult to repeat.
+The antenna mounting is chosen to maximize the distance from the drone while preserving stability. The X8 drone legs are too short to permit a fixed mounting further than two or three centimeters below the drone and the wingspan is too narrow for safe landing on longer legs. In the tests here the antenna has been suspended from the drone legs by non-conductive monofilament with a plastic bracket providing the filament/antenna mount point. On the ground, the antenna fits between the legs, in the air the antenna hangs 30\,cm below, this is shown in Figure \ref{fig:drone}. The advantages of this system are that it is simple, extremely light-weight and provides isolation between drone and antenna. The disadvantages are that it lacks rigidity, stability, and because it must be re-tied after transport it is difficult to repeat.
 
 \subsection{Flight Path}
 One of the main difficulties encountered by \citet{2015PASP..127.1131C} was in matching the flight pattern to the size scale of the variation in the beam.  They chose a cartesian grid pattern with a separation such that the drone passed through the primary lobe roughly three times.  When combined with the on/off switching used to subtract the 1GHz noise of the drone motors, the number density of samples became extremely limited and led to spurious results when interpolating to make a complete beam map.  Here our goal is to smoothly map the beam of a very wide-field element from zenith to the horizon, which would be difficult with a constant altitude flight pattern.  This is also true of the analysis pipelines where the distortion caused by the gnomic projection to a tangent plane makes for a poor gridding scheme at the horizon. In many 21cm pipelines, the HEALPix pixelization scheme \citep{Gorski:2005p7667} is used to store images and beam models.  HEALPix divides the sky into equal area pixels with the pixel count and resolution increasing by powers of two.
@@ -114,7 +138,7 @@ One of the main difficulties encountered by \citet{2015PASP..127.1131C} was in m
 \end{figure*}
 Pixels can be ordered either by their position in the hierarchical doubling (NEST) or in a spiral order with  longitude $\phi$ fastest (RING).  Here we chose a flight pattern which follows the NEST pattern to give us spherical shell flight pattern centered on the AUT with chosen a radius. Following a conservative safety practice limiting to good line of sight and considering the FAA flight ceiling of 400 ft we set the radius (and thus the maximum altitude) to 100m (328ft). The NSIDE parameter sets the number of waypoints and, effectively, the resolution of the beam sampling.  This number is constrained, ultimately by the amount of time we're willing to spend getting a beam map; at constant speed, a denser grid will take longer to record.  The slowest variable to be sampled is GPS position at 2 Hz. We've chosen to fly at 1m/s where the drone will sample about 3 samples per angular degree and an NSIDE of 8.  At this resolution and speed the full $2\pi$ steradians can be mapped to a resolution of 9 degrees in 60 minutes with four 15 minute sorties.
 
-The polarization of the antenna is kept fixed by inserting a Region of Interest (ROI) command into the beginning of the waypoint program.  The ROI command causes the drone to maintain a fixed heading in the direction of a set location which we choose to be a distant location due East or North as the required.
+The polarization of the antenna is kept fixed by inserting a Region of Interest (ROI) command into the beginning of the waypoint program.  The ROI command causes the drone to maintain a fixed heading in the direction of a set location which we choose to be a distant location due East or North as required.
 
 
 \subsection{Receiver}
@@ -124,7 +148,7 @@ Below we relate two experiments: mapping of calibration dipoles and a first map 
 We generate a beam map by interpolating the power trace at times when recorded GPS positions are available.  Careful observation of the autopilot behavior and inspection of logs suggests that the X8/Arducopter combination suffers from occasional stability `hiccups'. Finding that these are characterized primarily by outliers in the yaw we have flagged points greater than 2 $\sigma$ above the mean yaw.  Another slight yaw outlier is observed to occur as the drone passes through each waypoint gate which is often accompanied by a visible bump in the received power trace; points within half a second of each waypoint have been flagged (see Figure \ref{fig:waypoint_flagging}).
 
 \begin{figure}
-\includegraphics[width=\columnwidth]{figures/ECHO_CST.png}
+\includegraphics[width=\columnwidth]{figures/drone_antenna_screenshot.png}
 \caption{A view of the CST model of the transmitting antenna suspended beneath the metal arms of the drone.}\label{fig:tx_cst}
 \end{figure}
 
@@ -142,12 +166,16 @@ We generate a beam map by interpolating the power trace at times when recorded G
 
 These flagged data are then gridded, using a nearest pixel approach, into a healpix grid using an NSIDE of 8, the same as the flight pattern.  The gridder records the mean, the standard deviation and the total sample count of all the samples falling into each pixel. An example gridded beam is shown in Figure \ref{fig:beam_std_count}.
 
-The measured power pattern is a product of the power patterns of the transmitter and receiver, in decibels:
-\begin{equation}
-\textrm{measured power pattern} = \textrm{tx power} + \textrm{tx beam} + \textrm{rx beam}
-\end{equation}
+The measured power pattern is a product of the power patterns of the transmitter and receiver
+%, in logarithm this can be written
+%\begin{eqnarray*}
+% \textrm{tx power} \\
+%+ \textrm{tx beam} \\
+%+ \textrm{rx beam}\\
+%=\textrm{measured power pattern} 
+%\end{eqnarray*}
 
-  To estimate the power pattern of the receiver we use CST Microwave Studio to model the transmitting bicolog antenna beneath the drone modeled as a set of metal arms (see Figure \ref{fig:tx_cst}).  
+  To estimate the power pattern of the receiver we use CST Microwave Studio to model and subtract the transmitting bicolog antenna beneath the drone modeled as a set of metal arms (see Figure \ref{fig:tx_cst}).
 
 
 
@@ -158,13 +186,13 @@ As a first test of stability and accuracy we used ECHO to map antennas which had
 
 Data were collected in a series of four mapping runs in August, 2015 at the Green Bank Observatory operated by the National Radio Astronomy Observatory.  The amplifier and receiver setup was left unchanged from normal Orbcomm operations with the exception that the data recording script was modified to increase the spectral dump rate. The ECHO transmitter was tuned to 137.5\,MHz and attenuation was added until, at an output power of -22dBm, saturation into adjacent channels was no longer visible.  This resulted in a signal of amplitude similar to the received Orbcomm signals. Historical recordings were examined and this channel was seen to be rarely used by Orbcomm making an overlap unlikely.  The output was monitored throughout operations for obvious signs of an overlapping Orbcomm transmission.
 
-The null experiment, shown in an aerial view in Figure \ref{fig:GB_aerial}, was set up with the antennas separated by 50m along a north-south line with a HERA dish at the north end.  Each station was mapped twice, once with the transmitter fixed in the east-west (EW) direction and once north-south (NS).  The resulting data were flagged and gridded as described in section \ref{sec:processing}, the resulting maps are shown in figure \ref{fig:GB_beams}. 
+The null experiment, shown in an aerial view in Figure \ref{fig:GB_aerial}, was set up with the antennas separated by 50m along a north-south line with a HERA dish at the north end.  Each station was mapped twice, once with the transmitter fixed in the east-west (EW) direction and once north-south (NS).  The resulting data were flagged and gridded as described in section \ref{sec:processing}, a representative map is shown in figure \ref{fig:beam_std_count}. 
 
 
 
 
 \subsection{Comparison with Orbcomm}
-
+\label{sec:orbcomm}
 In the Orbcomm experiment, because both stations are measured simultaneously,  the most reliable metric is the ratio of the beams. However in our case, since data are collected sequentially, one map after another, the ratio can expose experimental systematic errors as well as those due to noise or short term variability.
 
 Assuming the transmitter beam is unchanging between mapping runs, the ratios of the two matching NS and EW elements can be directly compared to data collected nearly simultaneously during an Orbcomm null test.   Doing so we find that the EW dipoles have ratios similar to the Orbcomm measurement, but the NS ratio displays a systematic slope in the NS direction, see figure \ref{fig:GB_NS_ratio_uncalibrated}
@@ -198,25 +226,45 @@ The ratio between the two stations, after subtracting transmitter beams, are plo
 
 \subsection{Comparison to Model}
 
-Here we compare the four reconstructed beam patterns with the electromagnetic simulation.  If comparison of the ratios against Orbcomm is the stronger test for systematic error, direct comparison of each measurement against the electromagnetic model is perhaps more diagnostic because we can examine each of the four measurements independently. In Figure \ref{fig:GB_slices_quad} we plot orthogonal E and H plane slices. With the models split by receiver polarization we can see that, the measured NS patterns A and B now agree with each other to within a dB or so, they do not agree with the model. On the other hand, the EW maps both seem to agree to within error bars in most places.
+If the ratio of two identical nearby dipoles provides is the stronger test for systematic error, direct comparison of each measurement against the electromagnetic model is perhaps more diagnostic because we can examine each of the four measurements independently and make direct comparison with the simulated receiver beam. In Figure \ref{fig:GB_slices_quad} we plot orthogonal E and H plane slices of both data and model. The maps of the EW polarization arms seem to agree to within error bars in most places, but while the NS patterns agree with each other to within error bars, they do not agree with the model. 
 
+Nominally we would expect the two polarizations of the Orbcomm null dipoles to identical under 90\arcdeg{} rotations.  The NS arms have deeper nulls and a flatter response along the H plane. Experimenting with a similar rotation fit as was done for the A-NS we found that a simple rotation of the NS arms relative to the EW arms of the receiver dipole cannot account for this difference. Another possibility is unmodeled difference in the construction of the Orbcomm null dipoles.
 
 
 
 
 \section{Conclusion}
-\begin{itemize}
-\item resolution and sample variance is mainly limited by flight time
-\item variance due to angular instability is more important than position variation
-\item better antenna mount stability and drone yaw control is needed
-\item more investigation is needed to understand high variance in low elevation measurements
-\item repeatable measurements with errors $<1$dB is achievable with careful procedure and stable transmitter
+\label{sec:conclusion}
+In this paper we've described the development and characterization of an airborne radio calibrator which is specifically targeted at the needs of high redshift 21cm experiments. The necessity for precision foreground subtraction at one part in 10,000 motivates our desire to make a high fidelity map of the polarized beam response of the as-built antennas which covers the full $2\pi$ steradians of the sky at uniform precision. 
 
-\end{itemize}
+The design studied here is a relatively simplistic execution with a single dipole fixed beneath a smaller, low cost, commercially available multi-rotor drone.  We tested this design by mapping a set of calibration dipoles for which both data and high fidelity models are available.   From this first trial we can draw three main conclusions.
+
+\subsection{Mapping Considerations}
+We've set as our goal the making of a full-sky map of the beam, and chose as our flight path the ring pattern Healpix pixelization. This is a slight advance over regular level grids as it makes possible sampling near to the horizon level without having to fly far away. However, it does not ease the issue of resolution (our maps here were 7\arcdeg{}, for which a denser flight grid is required. Nor sample variance for which a slower flight speed is required. The simplest solution to both issues is more flight time. With a flight lifetime of 15 minutes, each map reported here required 4 flights and with no issues took about 100 minutes; the battery swap overhead is nearly 70\%.  A drone with a 30 minute flight time is possible with currently available technology and would make possible higher resolution maps.
+
+\subsection{Sources of Error}
+We found that under most circumstances, a standard deviation of 2\% was easily achievable, particularly after flagging on the telemetry data. However we see that the variance increases as transmitter polarization becomes aligned with the receiver. In the null of the dipole beam where the variance is the worst the error was about $\sim$6\%. One possible source of this instability is if the transmitter antenna were rotating in its harness. Turning to our model of the transmitter beam, we see that a yaw rms of only 1.3\arcdeg{} is sufficient to cause a 6\% error. Put together we with the tilt calibration we its clear that instability of the harness mounting method is surely the largest source of error. 
+
+\subsection{Areas for Improvement}
+The sling mounting was chosen under the assumption that distance from the drone would improve the symmetry of the transmitter beam, however subsequent modeling in CST has shown that small changes in distance cause very little beam asymmetry.  Given the instability of the sling method, investigation is currently under way into options for solid mounts closer to the drone body.  Furthermore, as we've previously noted, variance is correlated with excessive yaw recorded by the drone magnetometer.   This suggests that care must be taken to ensure excessively stable flight. Care must be taken to shield the magnetometer from the high currents feeding the prop motors and to properly tune the flight control loop settings to yield slow and stable turning.   Finally, for reasons of increased inertia, stability increases with the size of the drone; this is a fact worth considering when selecting a platform.
+Other areas for further development include extension across the 21cm bands. Coverage of the reionization (100-200\,MHz) and BAO (400-800\,MHz) bands is possible with the current configuration. A larger antenna will be required for the cosmic dawn band 50-100\,MHz.  The maps we obtain here are fully polarized, however they suffer from sensitivity issues at the poles due to our restriction of the dipoles to be parallel with the ground. Futuristic transmitter feeds which transmit both polarizations simultaneously and are gimballed to point at the antenna under test are possible, particularly in the sub meter bands, however more simulation work is required to understand the limitations and tradeoffs.
+
+\subsection{Overall Performance}
+One might ask, is the quality of the mapping at the level necessary for precision foreground subtraction as set by our current knowledge as described in the introduction.   If we take as given the foreground precision requirement as 10,000:1, then our target precision is 0.01\%, while our current best demonstrated precision is 2\%.  However, we note that the 10,000 number is not well defined, nor is it clear that it flows from the required flux subtraction precision to the accuracy of the beam. \citet{Shaw2015_chimemmodes} have set the limit of .1\% on the width of the beam, which for a gaussian beam translates to $\sim$ 1dB error bars at a -40dB level. Here we have demonstrated 2dB at the -30dB level.  More work is required to both refine exactly what the target precision is required of the measurement as well as the best way to deliver that precision.
+
+
+
+
+\section*{Open Project}
+This project is an open-source platform which can be used and modified by anyone. The code used to plan flights and to reduce the data is available at \url{github.com/dannyjacobs/ECHO}; the data in this paper and the plotting scripts are available in this paper's repository \url{github.com/dannyjacobs/ECHO_paper1/}.
+
+
+
+
 
 \acknowledgments
 ECHO development is supported by a grant from the National Science Foundation AST program, award number 1407646. D.C.J would like to acknowledge NSF support  under award 1401708.
-Thanks to Rich Bradley and National Radio Astronomy Observatory, Green Bank and to Andri Gretarsson and Embry Riddle Aeronautical Observatory for generously supporting this project with their time and equipment.
+Thanks to Rich Bradley and staff at the National Radio Astronomy Observatory, Green Bank and to Andri Gretarsson and Embry Riddle Aeronautical Observatory for generously supporting this project with their time and equipment. This project makes use of the astropy python library \citep{2013Robitaille_Astropy}.
 
 \bibliographystyle{apj}
 \bibliography{library}
