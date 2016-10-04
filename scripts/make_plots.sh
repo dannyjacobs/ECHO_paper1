@@ -77,7 +77,7 @@ error_alert "error plotting GB power patterns"
 
 
 #E/H slices for 4 dipoles
-python plot_GB_slices.py --savefig=../figures/GB_slices_quad.png
+python plot_GB_slices.py --savefig=../figures/GB_slices_quad.pdf
 error_alert "error plotting GB slices"
 
 
@@ -93,9 +93,12 @@ python ECHO_sub_tx_beam.py ../data/acc_GB_2015_Sant_EWtx_EWrx_8_beam.fits \
 error_alert "error subtracting TX beam"
 
 #python ECHO_sub_tx_beam.py ../data/acc_GB_2015_Nant_NStx_NSrx_8_beam.fits \
-# ../data/bicolog_legs_360.fits
+# ../data/bicolog_legs_360.fits --theta=-10
+python ECHO_sub_tx_beam.py ../data/acc_GB_2015_Nant_NStx_NSrx_8_beam.fits \
+../data/137MHz_tx_farfield_rot10deg_dist9cm.fits
+#../data/137MHz_farfield_10deg.fits
 #the North antenna (Ant A) gets fit for a transmitter offset against antenna B
-python ECHO_tx_fit.py 
+#python ECHO_tx_fit.py
 error_alert "error subtracting TX beam"
 
 python ECHO_sub_tx_beam.py ../data/acc_GB_2015_Sant_NStx_NSrx_8_beam.fits \
@@ -103,14 +106,14 @@ python ECHO_sub_tx_beam.py ../data/acc_GB_2015_Sant_NStx_NSrx_8_beam.fits \
 error_alert "error subtracting TX beam"
 
 
-#orbcomm with tx model removed
-python plot_ECHO_GB_maps.py --min=-40 --max=0 --savefig=../figures/GB_4_power_patterns_txcal.png --mode=usecal
-error_alert "error plotting calibrated GB maps"
-
-
-#error maps
-python plot_ECHO_GB_maps.py --min=-40 --max=0 --savefig=../figures/GB_4_power_patterns_txcal.png --mode=err
-error_alert "error plotting error"
+# #orbcomm with tx model removed
+# python plot_ECHO_GB_maps.py --min=-40 --max=0 --savefig=../figures/GB_4_power_patterns_txcal.png --mode=usecal
+# error_alert "error plotting calibrated GB maps"
+#
+#
+# #error maps
+# python plot_ECHO_GB_maps.py --min=-40 --max=0 --savefig=../figures/GB_4_power_patterns_txcal.png --mode=err
+# error_alert "error plotting error"
 
 #GB COMPARED TO ORBCOMM DATA
 #ratio maps and slices with comparison to orbcomm
