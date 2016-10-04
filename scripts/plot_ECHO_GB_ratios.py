@@ -169,7 +169,7 @@ def mask_below_horizon(beam):
 
 #plot a comparison of the ratio maps
 fig,axarr = subplots(3,2,sharex=True,sharey=True,subplot_kw={'aspect':'equal'},
-            figsize=(6,10.5))
+            figsize=(8.5,10.5))
 mn,mx = -1,1
 #         NS - EW
 #Orbcomm
@@ -238,10 +238,17 @@ for ax in axarr.ravel():
     ax.set_yticklabels([])
 
 
-#add the colorbar
-subplots_adjust(right=0.98,left=0.075,bottom=0.1,top=0.95,wspace=0,hspace=0)
-cax1=axes([.1,0.05,0.85,0.03])
-colorbar(coll,cax=cax1,orientation='horizontal',label='dB')
+#add the colorbars
+#colorbar for the first two rows
+cax1=axes([.88,0.34,0.02,0.6])
+colorbar(coll,cax=cax1,orientation='vertical',label='dB')
+
+#colorbar for the bottom error row
+cax1=axes([.88,0.01,0.02,0.30])
+colorbar(errcoll,cax=cax1,orientation='vertical',label='dB')
+
+subplots_adjust(right=0.875,left=0.075,bottom=0.01,top=0.95,wspace=0,hspace=0)
+
 
 savefig('../figures/GB_OC_ratio_compare.png')
 
