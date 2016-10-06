@@ -57,7 +57,6 @@ rxtx_slice_H = get_interp_val(rxtx_map,alt,az+np.pi/2)
 
 #altfig = figure(figsize=(8,6))
 fig,axarr = subplots(2,2,figsize=(10,6),sharey=True,sharex=True)
-rfig,raxarr = subplots(2,2,figsize=(10,6),sharey=True,sharex=True)
 
 # todo:
 # plot E and H in seperate panels
@@ -101,23 +100,22 @@ for i,filename in enumerate(filenames):
     ME_slice_E = get_interp_val(ME,alt,az+rot)
     ME_slice_H = get_interp_val(ME,alt,az+np.pi/2+rot)
     if rot==0:
-        col=0 #EW
-    else:
         col=1 #NS
+    else:
+        col=0 #EW
     axarr[0,col].errorbar(alt*180/np.pi,M_slice_E,yerr=ME_slice_E,
             label=labels[i],color=E_color,fmt=ls[i])
     axarr[1,col].errorbar(alt*180/np.pi,M_slice_H,yerr=ME_slice_H,
             color=H_color,fmt=ls[i])
 
-
 #plot the rx model
-axarr[0,0].plot(alt*180/np.pi,rx_slice_E,'-k',lw=2)
 axarr[0,1].plot(alt*180/np.pi,rx_slice_E,'-k',lw=2)
-axarr[1,0].plot(alt*180/np.pi,rx_slice_H,'-k',lw=2)
+axarr[0,0].plot(alt*180/np.pi,rx_slice_E,'-k',lw=2)
 axarr[1,1].plot(alt*180/np.pi,rx_slice_H,'-k',lw=2)
+axarr[1,0].plot(alt*180/np.pi,rx_slice_H,'-k',lw=2)
 #legend(loc='best')
-axarr[0,1].set_title('NS')
-axarr[0,0].set_title('EW')
+axarr[0,0].set_title('NS')
+axarr[0,1].set_title('EW')
 axarr[0,0].set_ylabel('E plane\n [dB V/m]')
 axarr[1,0].set_ylabel('H plane\n [dB V/m]')
 axarr[1,0].set_xlabel('$\\theta$ (deg)')
@@ -125,11 +123,10 @@ axarr[1,1].set_xlabel('$\\theta$ (deg)')
 
 subplots_adjust(wspace=0,hspace=0)
 #add the E/H polarization slice glyph
-add_cut_glyph(parent_axes=axarr[0,1],parent_fig=fig,cut='NS',pol='NS')  #E plane NS pol
-add_cut_glyph(parent_axes=axarr[1,1],parent_fig=fig,cut='EW',pol='NS')  #H plane NS pol
-add_cut_glyph(parent_axes=axarr[0,0],parent_fig=fig,cut='EW',pol='EW')  #E plane EW pol
-add_cut_glyph(parent_axes=axarr[1,0],parent_fig=fig,cut='NS',pol='EW')  #H plane EW pol
-
+add_cut_glyph(parent_axes=axarr[0,0],parent_fig=fig,cut='NS',pol='NS')  #E plane EW pol
+add_cut_glyph(parent_axes=axarr[1,0],parent_fig=fig,cut='EW',pol='NS')  #H plane EW pol
+add_cut_glyph(parent_axes=axarr[0,1],parent_fig=fig,cut='EW',pol='EW')  #E plane NS pol
+add_cut_glyph(parent_axes=axarr[1,1],parent_fig=fig,cut='NS',pol='EW')  #H plane NS pol
 
 #subplots_adjust(hspace=0,wspace=0)
 axarr[0,0].set_ylim(-35,2)
@@ -139,6 +136,6 @@ for ax in axarr.ravel():
 
 if not opts.savefig is None:
     print "plotting to", opts.savefig
-    savefig(opts.savefig)
+    fig.savefig(opts.savefig)
 else:
     show()
