@@ -104,7 +104,7 @@ for k,(i,j) in enumerate(ratios):
     R_slice_E = get_interp_val(R,theta,phi+sliceangle[k])
     R_slice_H = get_interp_val(R,theta,phi+np.pi/2 + sliceangle[k])
     #the error
-    R_E = np.sqrt(errmaps[i]**2 + errmaps[j]**2)
+    R_E = np.sqrt((errmaps[i]**2 + errmaps[j]**2)/2.)
     R_slice_E_err = get_interp_val(R_E,theta,phi + sliceangle[k])
     R_slice_H_err = get_interp_val(R_E,theta,phi + np.pi/2 + sliceangle[k])
     #plot
@@ -202,13 +202,13 @@ axarr[1,1].autoscale_view()
 
 for i in xrange(4):
     errmaps[i] = mask_below_horizon(errmaps[i])
-errcoll = make_polycoll(errmaps[0],nsides=nside,cmap=cm.jet)
+errcoll = make_polycoll(np.sqrt((errmaps[0]**2 + errmaps[1]**2)/2.),nsides=nside,cmap=cm.jet)
 errcoll.set_clim(0,1)
 axarr[2,0].add_collection(errcoll)
 axarr[2,0].autoscale_view()
 
 
-errcoll = make_polycoll(np.sqrt(errmaps[2]**2 + errmaps[3]**2),nsides=nside,cmap=cm.jet)
+errcoll = make_polycoll(np.sqrt((errmaps[2]**2 + errmaps[3]**2)/2.),nsides=nside,cmap=cm.jet)
 errcoll.set_clim(0,1)
 axarr[2,1].add_collection(errcoll)
 axarr[2,1].autoscale_view()
