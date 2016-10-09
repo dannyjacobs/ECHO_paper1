@@ -8,31 +8,34 @@
 \usepackage{natbib}
 \usepackage{ctable}
 \usepackage{tabularx}
-\usepackage{enumitem}
+%\usepackage{enumitem}
 \usepackage{url}
-\setlist[itemize]{noitemsep, topsep=0pt}
-\setlist[enumerate]{noitemsep, topsep=0pt}
+%\setlist[itemize]{noitemsep, topsep=0pt}
+%\setlist[enumerate]{noitemsep, topsep=0pt}
 \citestyle{aa}
 
-%\AuthorCallLimit=2
+\AuthorCallLimit=5
 
 \begin{document}
 
 
 \title{The External Calibrator for Hydrogen Observatories}
-%remove diagram from areal.
+
 
 
 \author{
-Daniel C. Jacobs\altaffilmark{1},
-Jacob Burba\altaffilmark{2},
+Daniel C. Jacobs\altaffilmark{1,2},
+Jacob Burba\altaffilmark{3},
 Judd Bowman\altaffilmark{1},
+Abraham R. Neben\altaffilmark{4}
+Benjamin Stinnett\altaffilmark{1}
 Lauren Turner\altaffilmark{1},
-Benjamin Stinnett
 }
 
 \altaffiltext{1}{School of Earth and Space Exploration, Arizona State University, Tempe, AZ, 85287}
-\altaffiltext{2}{Brown University, Providence, RI}
+\altaffiltext{2}{daniel.c.jacobs@asu.edu}
+\altaffiltext{3}{Brown University, Providence, RI}
+\altaffiltext{4}{MIT Kavli Institute, Massachusetts Institute of Technology, Cambridge, MA, 02139 USA}
 
 
 \begin{abstract}
@@ -54,7 +57,7 @@ Some of the largest successes to date of improved antenna modeling accuracy have
 
 \begin{figure*}[hbt]
 \centering
-\includegraphics[width=0.59\textwidth]{figures/drone2.png}
+\includegraphics[width=0.59\textwidth]{figures/drone2.jpg}
 \includegraphics[width=0.4\textwidth]{figures/drone.png}
 \caption{3DR X8 octoquad drone used for ECHO prior to launch (left) and in flight (right).  The transmitter circuitry is contained in the black box mounted on top of the drone.  A copper plate below the box shields it from the electronics below and a GPS/magnetometer is attached atop the box. Beneath the drone, the blue BicoLOG transmitting antenna is slung with non-conductive monofilament. For scale, we note that the propellers are 30~cm tip-to-tip and the antenna cone has a diameter of 10~cm at its widest point.}
 \label{fig:drone}
@@ -104,7 +107,7 @@ VLA & 25 & 0.2 & 2,970\\
 \end{deluxetable}
 
 
-In this paper, we report our progress towards overcoming the challenges of drone-based calibration with the development of the External Calibrator for Hydrogen Observatories (ECHO), which specifically addresses the 21~cm requirements identified above.  The ECHO system is described in detail in Section \ref{sec:design}.  It uses a broadband dipole as a transmitting antenna mounted in a fixed configuration beneath a multi-rotor drone. The antenna is driven by a sine-wave source that provides high transmission power at a tunable frequency. Beam maps are captured by flying the transmitter over the antenna using the HEALpix pixelation scheme to establish sampling waypoints.  As a test of the method, we have mapped two reference dipoles utilized in the beam-pattern measurement system of \citet{2016:NebenHERAdish} that uses the Orbcomm low-Earth orbit satellite constellation as transmission sources.  Comparing our measurements with the Orbcomm-derived beam patterns of the reference dioples and to simulations, we quantify the measurement stability and overall accuracy of the ECHO system.  We discuss the results of our analysis in Section \ref{sec:orbcomm}, and in Section \ref{sec:conclusion} we summarize the conclusions from these tests and identify places for further improvement.
+In this paper, we report our progress towards overcoming the challenges of drone-based calibration with the development of the External Calibrator for Hydrogen Observatories (ECHO), which specifically addresses the 21~cm requirements identified above.  The ECHO system is described in detail in Section \ref{sec:design}.  It uses a broadband dipole as a transmitting antenna mounted in a fixed configuration beneath a multi-rotor drone. The antenna is driven by a sine-wave source that provides high transmission power at a tunable frequency. Beam maps are captured by flying the transmitter over the antenna using the HEALpix pixelation scheme to establish sampling waypoints.  As a test of the method, we have mapped two reference dipoles utilized in the beam-pattern measurement system of \citet{2016:NebenHERAdish} that uses the Orbcomm low-Earth orbit satellite constellation as transmission sources.  Comparing our measurements with the Orbcomm-derived beam patterns of the reference dipoles and to simulations, we quantify the measurement stability and overall accuracy of the ECHO system.  We discuss the results of our analysis in Section \ref{sec:data}, and in Section \ref{sec:conclusion} we summarize the conclusions from these tests and identify places for further improvement.
 
 
 
@@ -134,7 +137,7 @@ The antenna mounting is chosen to maximize the distance from the drone to facili
 
 One of the main difficulties encountered by \citet{2015PASP..127.1131C} was in matching the flight pattern to the size scale of the variation in the beam.  They chose a cartesian grid pattern with a separation such that the drone passed through the primary lobe roughly three times.  When combined with the on/off switching they used to subtract the 1~GHz noise of the drone motors, the number density of samples became extremely limited and led to spurious results when interpolating to make a complete beam map.  Here, our goal is to smoothly map the beam of a very wide-field element from zenith to the horizon, which would be difficult with a constant altitude flight pattern.  This is also true of the analysis pipelines where the distortion caused by the gnomic projection to a tangent plane makes for a poor gridding scheme at the horizon. 
 
-In many 21~cm pipelines, the HEALPix pixelization scheme \citep{Gorski:2005p7667} is used to store images and beam models.  HEALPix divides the sky into equal area pixels with the pixel count and resolution selectable by powers of two. Pixels can be ordered either by their position in the hierarchical doubling (NEST) or in a spiral order with  longitude $\phi$ fastest (RING).  We chose a flight pattern which follows the NEST pattern to give us a spherical shell flight pattern centered on the receiving antenna with chosen a radius. Following a conservative safety practice limiting our drone flights to within a good line of sight of the operator, and considering the FAA flight ceiling of 400 feet, we set the radius (and thus the maximum altitude) to 100~m~(328~feet). The NSIDE parameter sets the number of waypoints and, effectively, the resolution of the beam sampling.  This number is constrained, ultimately, by the amount of time available to create a beam map---at constant speed, a denser grid will take longer to record.  The slowest variable to be sampled in our telemetry is GPS position at 2 Hz. We've chosen to fly at 1~m/s, hence the drone will acquire about three samples per angular degree with a HEALpix NSIDE of 8.  At this resolution and speed, the full $2\pi$ steradians of a beam response above the horizon can be mapped to a resolution of 9~degrees in 60~minutes with four 15-minute sorties.  Figure~\ref{fig:fligh_path} illustrates the ECHO coordinate system and flight path.
+In many 21~cm pipelines, the HEALPix pixelization scheme \citep{Gorski:2005p7667} is used to store images and beam models.  HEALPix divides the sky into equal area pixels with the pixel count and resolution selectable by powers of two. Pixels can be ordered either by their position in the hierarchical doubling (NEST) or in a spiral order with  longitude $\phi$ fastest (RING).  We chose a flight pattern which follows the NEST pattern to give us a spherical shell flight pattern centered on the receiving antenna with a chosen radius. Following a conservative safety practice limiting our drone flights to within a good line of sight of the operator, and considering the FAA flight ceiling of 400 feet, we set the radius (and thus the maximum altitude) to 100~m~(328~feet). The NSIDE parameter sets the number of waypoints and, effectively, the resolution of the beam sampling.  This number is constrained, ultimately, by the amount of time available to create a beam map---at constant speed, a denser grid will take longer to record.  The slowest variable to be sampled in our telemetry is GPS position at 2 Hz. We've chosen to fly at 1~m/s, hence the drone will acquire about three samples per angular degree with a HEALpix NSIDE of 8.  At this resolution and speed, the full $2\pi$ steradians of a beam response above the horizon can be mapped to a resolution of 9~degrees in 60~minutes with four 15-minute sorties.  Figure~\ref{fig:fligh_path} illustrates the ECHO coordinate system and flight path.
 
 The polarization angle of the antenna is kept fixed by inserting a Region of Interest (ROI) command into the beginning of the waypoint program.  The ROI command causes the drone to maintain a fixed heading in the direction of a set location which we choose to be a distant location due East or North to match the polarization of the antenna being mapped.
 
@@ -147,7 +150,7 @@ The Orbcomm system was in this ``null test'' configuration, shown in Figure \ref
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=\columnwidth]{figures/Green_Bank_aerial_diagram_extended.png}
+\includegraphics[width=\columnwidth]{figures/Green_Bank_aerial_diagram_extended.jpg}
 \caption{Aerial view of the Orbcomm experimental setup in Green Bank (top) used for the ECHO test.  The two AUTs used for ECHO are reference antennas for the Orbcomm system, separated by 100~m on a north-south line. Each antenna (bottom) is a dual polarization sleeved dipole mounted on a 2m~x~2m mesh set $\sim$20~cm above the ground.  Two spherical flight patterns were performed by ECHO on each antenna to record received power for the transmitter aligned NS and EW.  }
 \label{fig:GB_aerial}
 \end{center}
@@ -173,7 +176,7 @@ We generate beam maps by interpolating the received power trace at times when re
 \begin{figure*}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{figures/GB_power_rms_count.png}
-\caption{(left) Received power pattern for the NS dipole of antenna [[TBD]].  The pattern is shown in its raw form before it has been normalized to remove the effect of the transmitting antenna beam.  The pattern is effectively the product of two simple dipole patterns and exhibits the expected broad-beam response with nulls at the north and south (top and bottom) edges.  It is plotted on the same HEALpix grid as used for the flight waypoints.   (middle) The standard deviation of samples falling within a given pixel of the received power map. The standard deviation is calculated relative to the average in dB units, not linear units.  (right) The number of samples within in a given pixel of the map. Most pixels contain four or more samples.}
+\caption{(left) Received power pattern for the NS dipole of antenna A.  The pattern is shown in its raw form before it has been normalized to remove the effect of the transmitting antenna beam.  The pattern is effectively the product of two simple dipole patterns and exhibits the expected broad-beam response with nulls at the north and south (top and bottom) edges.  It is plotted on the same HEALpix grid as used for the flight waypoints.   (middle) The standard deviation of samples falling within a given pixel of the received power map. The standard deviation is calculated relative to the average in dB units, not linear units.  (right) The number of samples within in a given pixel of the map. Most pixels contain four or more samples.}
 \label{fig:beam_std_count}
 \end{center}
 \end{figure*}
@@ -191,7 +194,7 @@ The measured power pattern is a product of the power patterns of the transmitter
 
 
 \section{Data}
-
+\label{sec:data}
 
 Data were collected in a series of four mapping runs in August, 2015 using the Orbcomm setup at Green Bank Observatory.   Historical spectral monitoring from the site was examined to identify a channel close to the Orbcomm transmission channels, but rarely used, yielding the transmission frequency selected for ECHO of 137.5~MHz.  The spectrum was monitored throughout operations for obvious signs of an overlapping Orbcomm transmission.  Each our two AUTs was mapped twice, once with the ECHO transmitter polarization fixed in the east-west direction and once north-south.  The resulting four data sets were flagged and gridded as described in Section \ref{sec:processing}.  A representative map is shown in Figure~\ref{fig:beam_std_count}. 
 
@@ -237,23 +240,17 @@ The left column of Figure \ref{fig:GB_slices_quad} shows cross-sections from the
 \end{figure*}
 
 
-%In the Orbcomm null test, because both sleeved dipoles are measured simultaneously,  the ratio of the beams is actively suppressing the largest source of systematic error, time variation of the Orbcomm signals. However in our case, since data are collected sequentially, one map after another, the ratio can expose experimental systematic errors as well as those due to noise or short term variability.
-
-%In this section, we compare the measurements of antennas A and B acquired by ECHO with similar measurements acquired by the Orbcomm-based system of [[[TBD: cite Neben]]].  Our goal is establish a baseline estimate of the systematic error in the ECHO system.
-
-% and to provide a data product we could compare to the Orbcomm characterization of the AUTs, 
-
 We took the ratio of the antenna A beams to the antenna B beams, treating the NS and EW dipole polarizations separately.  Assuming the ECHO system is stable between mapping runs, the ratios should be unity.  In practice, any instability in ECHO or differences between the two antennas due to construction irregularities or nearby environmental properties will result in ratios that differ from unity.  As a reference, we derived the same ratios between the antenna beams from data collected nearly simultaneously during an Orbcomm ``null test''.   
 
 Comparing the ECHO and Orbcomm-derived beam ratios, we found that the beam patterns measured by ECHO for the EW dipoles yielded ratios similar to those derived from the Orbcomm measurements, but the raw beam patterns measured by ECHO for the NS dipoles displayed a systematic slope in the NS direction, as evident in Figure~\ref{fig:GB_NS_ratio_uncalibrated}.  A systematic slope in the measured beam ratio of the two AUTs that is aligned with the polarization of the transmitter can be produced by a modest tilt in the transmitting antenna or one of the receiving antennas.  Since the Orbcomm data do not show a similar feature, we assume the slope is due to a tilt in the ECHO transmitting antenna.  Such a tilt is a likely failure mode of the monofilament transmitter suspension method.  
 
-If stable within any given mapping run, the tilt can be accounted for during our data reduction by modifying the transmitter beam model used to normalize the data.  Inspection of photos taken during the field trials revealed several instances of small antenna mounting tilts, most likely in the last mapping run of the experiment, on the NS arm of station A.   We find that a rotation of the transmitter antenna by $\Delta \theta = 10$\arcdeg{} fits the observed slope well while staying within the bounds of likely misalignments observed in the field and in the photos.  To compensate for the slope, we have applied a revised transmitter beam model that accounts for the misalignment of the transmitting antenna during the ECHO measurements of the NS dipole of antenna A.  An unrotated transmission beam is used to normalize  the other beam measurements.  This correction has been applied to the data shown in Figures~\ref{fig:GB_slices_quad},~\ref{fig:GB_ratio_maps}, and~\ref{fig:GB_ratio_slices}.
+If stable within any given mapping run, the tilt can be accounted for during our data reduction by modifying the transmitter beam model used to normalize the data.  Inspection of photos taken during the field trials revealed several instances of small antenna mounting tilts, mostly in the last mapping run of the experiment, on the NS arm of station A.   We find that a rotation of the transmitter antenna by $\Delta \theta = 10$\arcdeg{} fits the observed slope well while staying within the bounds of likely misalignments observed in the field and in the photos.  To compensate for the slope, we have applied a revised transmitter beam model that accounts for the misalignment of the transmitting antenna during the ECHO measurements of the NS dipole of antenna A.  An unrotated transmission beam is used to normalize  the other beam measurements.  This correction has been applied to the data shown in Figures~\ref{fig:GB_slices_quad},~\ref{fig:GB_ratio_maps}, and~\ref{fig:GB_ratio_slices}.
 
 The ratios between the measured antenna beam patterns are plotted in Figures~\ref{fig:GB_ratio_maps} and~\ref{fig:GB_ratio_slices}.   Comparing Figure \ref{fig:GB_NS_ratio_uncalibrated} to the beam-tilt corrected version plotted in the middle panel of Figure~\ref{fig:GB_ratio_maps}, we can see that the original 10~dB slope across the beam has been reduced to a much smaller difference of  $\sim$0.5~dB, which is similar to the typical sample noise in the ratio maps, as shown in the bottom panel of Figure~\ref{fig:GB_ratio_maps}.   
 
 The ratio maps show again that ECHO measurements of antennas A and B exhibit nearly identical beam patterns to within the sample noise, except at large zenith angles.  This discrepancy between the beam patterns of antennas A and B at large $|\theta|$ is especially evident in the EW polarization. At large zenith angles, the ECHO drone is close to the ground.  It is likely that ground propagation effects influence the transmitted signal at large $|\theta|$, but are not accounted for in our analysis presently.    Overall, the Orbcomm and ECHO data agree that the NS polarizations are not as similar to each other as the EW polarizations for the two antennas.  
 
-%The E-plane, which passes through the nulls of both the AUTs and the transmitter beams, contains the most uncertain portion of the beam measurements. In the nulls, the sensitivity is lowest and both AUT and transmitter beams are steep functions of zenith angle. 
+
 
 \subsection{Accuracy and Source of Sample Noise}
 
@@ -276,9 +273,8 @@ The beam mapping experiment by Chang et al (2015) used a rectilinear grid and fo
 
 \subsection{Sources of Error}
 
-We found that under most circumstances, the repeatability of multiple measurements in a gridded pixel had a typical standard deviation of 2\% after flagging on the telemetry data. However we see that the standard deviation increases as transmitter polarization becomes aligned with the receiver near the nulls of the beam patterns. In the null of the AUT beam, the standard deviation was about $\sim$6\%. One possible source of this instability is if the transmitter antenna were rotating in its harness. Turning to our model of the transmitter beam, we see found a yaw RMS of  1.3\arcdeg{} is sufficient to cause a 6\% error. This error is likely to be a combination of actual yaw instability in the drone and instability of the monofilament mounting method. 
+We found that under most circumstances, the repeatability of multiple measurements in a gridded pixel had a typical standard deviation of 2\% after flagging on the telemetry data. However we see that the standard deviation increases as transmitter polarization becomes aligned with the receiver near the nulls of the beam patterns. In the null of the AUT beam, the standard deviation was about $\sim$6\%. One possible source of this instability is if the transmitter antenna were rotating in its harness. Turning to our model of the transmitter beam, we found a yaw RMS of  1.3\arcdeg{} is sufficient to cause a 6\% error. This error is likely to be a combination of actual yaw instability in the drone and instability of the monofilament mounting method. 
 
-%This kind of instability is typically solved in drone applications by a self-stabilizing gimbal which is commonly used for photography and cinematography. Use of a gimbal was avoided in this first iteration to avoid the addition of more conductive components. As this instability is the largest source of error, the benefits from addition of a gimbal  mechanism will likely outweigh the cost of a more complex transmitter beam. 
 
 \subsection{Areas for Improvement}
 
@@ -288,7 +284,7 @@ In the end, drone stability can only be refined so far. In most drone applicatio
 
 Comparing our data with the electromagnetic model of the receiver dipole, we found that our data agreed with the model on one of the polarizations, but not the other.  This was true for both identically constructed test stations. As these stations serve as the underlying basis for the accuracy of both drone and Orbcomm systems, future work should focus on identifying the sources of these differences and improving the accuracy of the models.
 
-Other areas for further development include extension across the 21~cm bands. Coverage of the reionization (100-200\,MHz) and BAO (400-800\,MHz) bands is possible with the current configuration. A larger antenna will be required for the cosmic dawn band 50-100\,MHz.  ECHO measurements are suitable to characterize the polarization characteristics of an AUT and we plan to explore cross-polarization measurements in future work.   The ECHO system  suffers from sensitivity issues at the poles due to our restriction that transmitting dipole antenna is maintained parallel with the ground. Transmitter feeds that transmit both polarizations simultaneously and are gimballed to point at the AUT are possible, particularly in the sub-meter bands, however more investigation is required to understand the limitations and tradeoffs.
+Other areas for further development include extension across the 21~cm bands. Coverage of the reionization (100-200\,MHz) and BAO (400-800\,MHz) bands is possible with the current configuration. A larger antenna will be required for the cosmic dawn band 50-100\,MHz.  ECHO measurements are suitable to characterize the polarization characteristics of an AUT and we plan to explore cross-polarization measurements in future work.   The ECHO system  suffers from sensitivity issues at the poles due to our restriction that the transmitting dipole antenna is maintained parallel with the ground. Transmitter feeds that transmit both polarizations simultaneously and are gimbaled to point at the AUT are possible, particularly in the sub-meter bands, however more investigation is required to understand the limitations and tradeoffs.
 
 \subsection{Overall Performance}
 
