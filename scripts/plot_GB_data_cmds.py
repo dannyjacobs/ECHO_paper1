@@ -66,6 +66,12 @@ for x in cmdtimes.plot_date:
     axvline(x,color='k')
 
 grid()
+if True:
+    twinx()
+    yaws = angles.squeeze()-np.mean(angles)
+    plot_date(angletimes.plot_date,yaws)
+    ylim(-5,5)
+
 xlabel('time [minutes]')
 tight_layout()
 show()

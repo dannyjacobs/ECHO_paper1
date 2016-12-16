@@ -118,9 +118,9 @@ add_cut_glyph(parent_axes=axarr[1,1],parent_fig=fig,cut='NS',pol='EW')  #H plane
 #get the Neben et al ratio results
 #R_OC_NS = read_map('../data/null4_north_over_south_ratio_ns.fits') #the old data from aug 2015
 #R_OC_NS = rotate_hpm(R_OC_NS,angle=90)
-R_OC_NS = read_map('../data/null4_north_over_south_ratio_ns_nside64.fits')
+R_OC_NS = read_map('../data/null4_north_over_south_ratio_ns_nside8.fits')
 #R_OC_EW = read_map('../data/null4_north_over_south_ratio_ew.fits')
-R_OC_EW = read_map('../data/null4_north_over_south_ratio_ew_nside64.fits')
+R_OC_EW = read_map('../data/null4_north_over_south_ratio_ew_nside8.fits')
 
 R_slice_E_NS = get_interp_val(R_OC_NS,theta,phi)
 R_slice_H_NS = get_interp_val(R_OC_NS,theta,phi+np.pi/2)
@@ -174,14 +174,14 @@ mn,mx = -1,1
 #         NS - EW
 #Orbcomm
 #ECHO
-nside=hp.npix2nside(len(R_OC_NS))/2
-coll = make_polycoll(hp.ud_grade(R_OC_NS,nside),nsides=nside,cmap=cm.jet)
+nside=hp.npix2nside(len(R_OC_NS))
+coll = make_polycoll(R_OC_NS,nsides=nside,cmap=cm.jet)
 coll.set_clim(mn,mx)
 axarr[0,0].add_collection(coll)
 axarr[0,0].autoscale_view()
 
-nside=hp.npix2nside(len(R_OC_EW))/2
-coll = make_polycoll(hp.ud_grade(R_OC_EW,nside),nsides=nside,cmap=cm.jet)
+nside=hp.npix2nside(len(R_OC_EW))
+coll = make_polycoll(R_OC_EW,nsides=nside,cmap=cm.jet)
 coll.set_clim(mn,mx)
 axarr[0,1].add_collection(coll)
 axarr[0,1].autoscale_view()

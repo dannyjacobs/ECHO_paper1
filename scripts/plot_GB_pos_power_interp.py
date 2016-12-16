@@ -6,7 +6,7 @@ from glob import glob
 rx_files = glob('/Users/djacobs/Google_Drive/ECHO/Experiments/Green_bank_Aug_2015/South_dipole/NS_transmitter_polarization/satpowerflight12.0*')
 assert(len(rx_files)>0)
 apm_files = glob('/Users/djacobs/Google_Drive/ECHO/Experiments/Green_bank_Aug_2015/South_dipole/NS_transmitter_polarization/apm_Aug13_v*log')
-positiontimes,positions,angletimes,angles = read_apm_logs(apm_files)
+positiontimes,positions,angletimes,angles,CMD_nums,CMD_times = read_apm_logs(apm_files)
 
 colors=['c','b','k','m']
 i=0

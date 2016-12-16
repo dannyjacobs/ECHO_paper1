@@ -7,7 +7,7 @@ error_alert()
   echo "------------------------------------"
   echo "        ${1}"
   echo "------------------------------------"
-  break
+  return
   fi
 }
 
@@ -128,6 +128,7 @@ error_alert "error plottin GB ratios"
 python plot_GB_avg_slices.py
 error_alert "error plotting avg GB slices"
 
+return
 
 
 #MWA DATA

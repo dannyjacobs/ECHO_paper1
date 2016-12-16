@@ -21,4 +21,7 @@ ax.set_zlim(0,200)
 savefig('../figures/ECHO_flight_path.png')
 ax.set_axis_off()
 savefig('../figures/ECHO_flight_transparent.png',transparent=True)
+
+ax.plot(x[50:60],y[50:60],z[50:60],'-k',lw=3)
+ax.scatter(x[50:60],y[50:60],z[50:60],s=50,c='r')
 show()

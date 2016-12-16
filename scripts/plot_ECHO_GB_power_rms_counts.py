@@ -1,4 +1,5 @@
 from ECHO.plot_utils import make_polycoll,project_healpix,nf,fmt,cmap_discretize
+from ECHO.read_utils import read_map
 import numpy as np,optparse
 import healpy as hp
 from matplotlib.pyplot import *
@@ -11,14 +12,23 @@ o.add_option('--min',type=float,help='min plotted value')
 o.add_option('--savefig',default=None,type=str)
 opts,args = o.parse_args(sys.argv[1:])
 
+def flag_below_horizon(beam):
+    pixnums = np.arange(len(beam))
+    nside = hp.npix2nside(len(beam))
+    theta,phi = hp.pix2ang(nside,pixnums)
+    beam = np.ma.masked_where(np.abs(theta)>np.pi/2,beam)
+    return beam
 
 #load the data
-beamfile='../data/8_power_Nant_NSdipole_NStransmitter.fits'
-rmsfile = beamfile.replace('power','rms')
-countsfile = beamfile.replace('power','counts')
-beam = np.ma.masked_invalid(hp.read_map(beamfile))
-rms = np.ma.masked_invalid(hp.read_map(rmsfile))
-counts = np.ma.masked_invalid(hp.read_map(countsfile))
+#beamfile='../data/8_power_Nant_NSdipole_NStransmitter.fits'
+beamfile = '../data/acc_GB_2015_Nant_NStx_NSrx_8_beam.fits'
+rmsfile = beamfile.replace('beam','rms')
+countsfile = beamfile.replace('beam','counts')
+beam = read_map(beamfile)
+beam -= beam.max()
+rms = read_map(rmsfile)
+rms = flag_below_horizon(rms)
+counts = read_map(countsfile)
 
 THETA,PHI,IM = project_healpix(beam)
 X,Y = np.meshgrid(
@@ -51,6 +61,7 @@ cb.set_label('dB')
 #make the std plot
 ax2 = subplot(132)
 axis('equal')
+print rms
 rmscoll = make_polycoll(rms,cmap=cm.jet)
 rmscoll.set_clim(0,2)
 ax2.add_collection(rmscoll)
@@ -96,3 +107,5 @@ cb.set_label('sample count')
 if not opts.savefig is None:
     print "saving to",opts.savefig
     savefig(opts.savefig)
+else:
+    show()
